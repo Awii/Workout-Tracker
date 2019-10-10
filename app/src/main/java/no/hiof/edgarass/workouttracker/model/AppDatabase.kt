@@ -1,4 +1,4 @@
-package no.hiof.edgarass.workouttracker.Model
+package no.hiof.edgarass.workouttracker.model
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

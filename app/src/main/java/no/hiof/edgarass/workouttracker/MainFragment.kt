@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
 import kotlinx.android.synthetic.main.fragment_main.*
-import no.hiof.edgarass.workouttracker.Model.Exerciseee
+import no.hiof.edgarass.workouttracker.model.Exerciseee
 import java.util.*
 
 /**

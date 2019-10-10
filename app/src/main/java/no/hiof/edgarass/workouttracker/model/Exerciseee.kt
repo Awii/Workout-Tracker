@@ -1,6 +1,4 @@
-package no.hiof.edgarass.workouttracker.Model
-
-import android.widget.TextView
+package no.hiof.edgarass.workouttracker.model
 
 // TODO: fix Exerciseee class (extend TextView?)
 

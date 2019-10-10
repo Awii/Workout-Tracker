@@ -2,18 +2,13 @@ package no.hiof.edgarass.workouttracker
 
 
 import android.os.Bundle
-import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.room.Room
 import kotlinx.android.synthetic.main.fragment_add_exercise.*
-import kotlinx.android.synthetic.main.fragment_main.*
-import no.hiof.edgarass.workouttracker.Model.AppDatabase
-import no.hiof.edgarass.workouttracker.Model.Exercise
+import no.hiof.edgarass.workouttracker.model.AppDatabase
 
 class AddExercise : Fragment() {
 

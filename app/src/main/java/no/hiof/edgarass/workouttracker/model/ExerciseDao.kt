@@ -1,4 +1,4 @@
-package no.hiof.edgarass.workouttracker.Model
+package no.hiof.edgarass.workouttracker.model
 
 import androidx.room.Dao
 import androidx.room.Delete

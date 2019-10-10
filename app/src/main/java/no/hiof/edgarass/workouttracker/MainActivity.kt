@@ -3,11 +3,7 @@ package no.hiof.edgarass.workouttracker
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
-import android.widget.LinearLayout
-import android.view.Gravity
-import no.hiof.edgarass.workouttracker.Model.Exerciseee
 
 
 class MainActivity : AppCompatActivity() {

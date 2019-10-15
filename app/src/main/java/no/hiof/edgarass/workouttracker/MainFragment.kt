@@ -11,13 +11,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_main.*
 import java.util.*
 
-/**
- * A simple [Fragment] subclass.
- */
 class MainFragment : Fragment() {
 
     override fun onCreateView(
@@ -45,7 +41,6 @@ class MainFragment : Fragment() {
 
 
         floating_action_button.setOnClickListener {
-            //findNavController(mainFragment).navigate(R.id.action_mainFragment_to_addExercise)
             it.findNavController().navigate(R.id.action_mainFragment_to_addExercise)
         }
 
@@ -64,8 +59,6 @@ class MainFragment : Fragment() {
             }
             R.id.action_synchronize -> {
                 findNavController(mainFragment).navigate(R.id.action_mainFragment_to_synchronizeFragment)
-                //val intent = Intent(this, FirebaseActivity::class.java)
-                //startActivity(intent)
                 return true
             }
             else -> {

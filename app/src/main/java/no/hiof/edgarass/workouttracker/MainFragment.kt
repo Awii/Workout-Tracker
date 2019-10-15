@@ -11,8 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_main.*
-import no.hiof.edgarass.workouttracker.model.Exerciseee
 import java.util.*
 
 /**
@@ -32,25 +32,10 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (activity as AppCompatActivity).supportActionBar?.show()
-
-
-        //setSupportActionBar(settingsMenu)
-        //setupActionBarWithNavController(this, R.id.navHostFragment)
-
-
-        //activity?.setActionBar(settingsMenu)
-
+        // show action bar only in main fragment
+        val actionBar = (activity as AppCompatActivity).supportActionBar
+        actionBar?.show()
         setHasOptionsMenu(true)
-
-        //activity?.setActionBar(settingsMenu)
-
-        val actionBar = activity?.actionBar
-
-        actionBar?.title = Calendar.getInstance().getDisplayName(
-            Calendar.DAY_OF_WEEK,
-            Calendar.LONG,
-            Locale.getDefault())
 
         actionBar?.title = Calendar.getInstance().getDisplayName(
             Calendar.DAY_OF_WEEK,
@@ -60,7 +45,8 @@ class MainFragment : Fragment() {
 
 
         floating_action_button.setOnClickListener {
-            it.findNavController().navigate(R.id.action_mainFragment_to_addExerciseFragment)
+            //findNavController(mainFragment).navigate(R.id.action_mainFragment_to_addExercise)
+            it.findNavController().navigate(R.id.action_mainFragment_to_addExercise)
         }
 
         addExercises()
@@ -73,10 +59,11 @@ class MainFragment : Fragment() {
         return when (item.itemId) {
 
             R.id.action_settings -> {
-                findNavController(floating_action_button).navigate(R.id.action_mainFragment_to_settingsFragment)
+                findNavController(mainFragment).navigate(R.id.action_mainFragment_to_settingsFragment)
                 return true
             }
             R.id.action_synchronize -> {
+                findNavController(mainFragment).navigate(R.id.action_mainFragment_to_synchronizeFragment)
                 //val intent = Intent(this, FirebaseActivity::class.java)
                 //startActivity(intent)
                 return true
@@ -108,9 +95,9 @@ class MainFragment : Fragment() {
         ex1.layoutParams = params
         main_layout.addView(ex1)
 
-        val dl = Exerciseee("Dl", 3, 5, 40, "kg")
+        //val dl = Exerciseee("Dl", 3, 5, 40, "kg")
         val ex3 = TextView(activity!!.applicationContext)
-        ex3.text = dl.toString()
+        ex3.text = "Dl 3x5"
         ex3.textSize = 30f
         ex3.gravity = Gravity.CENTER
         ex3.layoutParams = params

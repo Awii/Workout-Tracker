@@ -6,9 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.room.Room
 import kotlinx.android.synthetic.main.fragment_add_exercise.*
-import no.hiof.edgarass.workouttracker.model.AppDatabase
+import no.hiof.edgarass.workouttracker.database.AppDatabase
 
 class AddExercise : Fragment() {
 
@@ -22,6 +23,8 @@ class AddExercise : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        (activity as AppCompatActivity).supportActionBar?.hide()
 
 
         val db = Room.databaseBuilder(activity!!.applicationContext, AppDatabase::class.java, "app-database").build()

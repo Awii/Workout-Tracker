@@ -1,4 +1,4 @@
-package no.hiof.edgarass.workouttracker.model
+package no.hiof.edgarass.workouttracker.database
 
 import androidx.room.Dao
 import androidx.room.Delete
@@ -16,9 +16,9 @@ interface ExerciseDao {
     @Query("SELECT * FROM exercise WHERE exercise_name LIKE :name LIMIT 1")
     fun findByName(name: String): Exercise
 
-    @Insert
-    fun insertOne(exercise: Exercise) {
-    }
+    //@Insert
+    //fun insertOne(exercise: Exercise) {
+    //}
 
     @Insert
     fun insertAll(vararg exercises: Exercise)

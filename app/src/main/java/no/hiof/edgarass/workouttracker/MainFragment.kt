@@ -7,14 +7,22 @@ import android.os.Bundle
 import android.view.*
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_main.*
+import no.hiof.edgarass.workouttracker.adapter.ExerciseAdapter
+import no.hiof.edgarass.workouttracker.model.Exercise
 import java.util.*
+import kotlin.collections.ArrayList
 
 class MainFragment : Fragment() {
+    private var exerciseList : ArrayList<Exercise> = Exercise.getExercises()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,7 +52,9 @@ class MainFragment : Fragment() {
             it.findNavController().navigate(R.id.action_mainFragment_to_addExerciseFragment)
         }
 
-        addExercises()
+        //addExercises()
+
+        setUpRecycleView()
 
     }
 
@@ -86,16 +96,42 @@ class MainFragment : Fragment() {
         ex1.textSize = 30f
         ex1.gravity = Gravity.CENTER
         ex1.layoutParams = params
-        main_layout.addView(ex1)
+        //main_layout.addView(ex1)
 
-        //val dl = Exerciseee("Dl", 3, 5, 40, "kg")
+        //val dl = Exercise("Dl", 3, 5, 40, "kg")
         val ex3 = TextView(activity!!.applicationContext)
         ex3.text = "Dl 3x5"
         ex3.textSize = 30f
         ex3.gravity = Gravity.CENTER
         ex3.layoutParams = params
 
-        main_layout.addView(ex3)
+        //main_layout.addView(ex3)
+    }
+
+    private fun setUpRecycleView() {
+        // Set our own adapter to be used in the RecycleView, and sends it the data and creates the OnClickListener
+        // With the listener gets called when an item in the list is clicked
+        exerciseRecycleView.adapter = ExerciseAdapter(exerciseList,
+            View.OnClickListener { view ->
+                // Gets the position of the item that's clicked
+                //val position = exerciseRecycleView.getChildAdapterPosition(view)
+
+                // Gets the movie based on which item got clicked
+                //val clickedMovie = exerciseRecycleView[position]
+
+                // Creates the navigation action, including the uid argument
+                //val action = MovieListFragmentDirections.actionMovieListToMovieDetailFragment(clickedMovie.uid)
+
+                // Calls the navigat action, taking us to the MovieDetailFragment
+                //findNavController().navigate(action)
+
+                // Creates a toast with the movie that got clicked
+                //Toast.makeText(view.context, clickedMovie.title + " clicked", Toast.LENGTH_LONG).show();
+            })
+
+        // Sets the layoutmanager we want to use
+        //movieRecyclerView.layoutManager = GridLayoutManager(context, 3)
+        exerciseRecycleView.layoutManager = LinearLayoutManager(context)
     }
 
 

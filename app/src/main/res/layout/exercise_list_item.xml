@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/exerciseName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Exercise"
+        android:textColor="#616161"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        tool:layout_constraintStart_toStartOf="parent"
+        tool:layout_constraintTop_toTopOf="parent">
+    </TextView>
+
+    <TextView
+        android:id="@+id/exerciseSets"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8sp"
+        android:text="3"
+        android:textColor="#616161"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        tool:layout_constraintStart_toEndOf="@+id/exerciseName"
+        tool:layout_constraintTop_toTopOf="parent">
+    </TextView>
+
+    <TextView
+        android:id="@+id/exerciseX"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="x"
+        android:textColor="#616161"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        tool:layout_constraintStart_toEndOf="@+id/exerciseSets"
+        tool:layout_constraintTop_toTopOf="parent">
+    </TextView>
+
+    <TextView
+        android:id="@+id/exerciseReps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="5"
+        android:textColor="#616161"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        tool:layout_constraintStart_toEndOf="@+id/exerciseX"
+        tool:layout_constraintTop_toTopOf="parent">
+    </TextView>
+
+    <TextView
+        android:id="@+id/exerciseWeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8sp"
+        android:text="50"
+        android:textColor="#616161"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        tool:layout_constraintStart_toEndOf="@+id/exerciseReps"
+        tool:layout_constraintTop_toTopOf="parent">
+    </TextView>
+
+    <TextView
+        android:id="@+id/exerciseUnit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="kg"
+        android:textColor="#616161"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        tool:layout_constraintStart_toEndOf="@+id/exerciseWeight"
+        tool:layout_constraintTop_toTopOf="parent">
+    </TextView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

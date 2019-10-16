@@ -41,7 +41,7 @@ class MainFragment : Fragment() {
 
 
         floating_action_button.setOnClickListener {
-            it.findNavController().navigate(R.id.action_mainFragment_to_addExercise)
+            it.findNavController().navigate(R.id.action_mainFragment_to_addExerciseFragment)
         }
 
         addExercises()

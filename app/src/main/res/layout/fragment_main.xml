@@ -8,9 +8,6 @@
     android:background="@drawable/main_background"
     android:id="@+id/mainFragment">
 
-
-
-
         <ScrollView
         android:id="@+id/main_scrollview"
         android:layout_width="match_parent"

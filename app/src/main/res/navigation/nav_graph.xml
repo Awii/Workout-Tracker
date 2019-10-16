@@ -17,8 +17,8 @@
             android:id="@+id/action_mainFragment_to_synchronizeFragment"
             app:destination="@id/synchronizeFragment" />
         <action
-            android:id="@+id/action_mainFragment_to_addExercise"
-            app:destination="@id/addExercise" />
+            android:id="@+id/action_mainFragment_to_addExerciseFragment"
+            app:destination="@id/addExerciseFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -30,9 +30,9 @@
         android:name="no.hiof.edgarass.workouttracker.SynchronizeFragment"
         android:label="fragment_synchronize"
         tools:layout="@layout/fragment_synchronize" />
-    <fragment
-        android:id="@+id/addExercise"
-        android:name="no.hiof.edgarass.workouttracker.AddExercise"
+    <dialog
+        android:id="@+id/addExerciseFragment"
+        android:name="no.hiof.edgarass.workouttracker.AddExerciseFragment"
         android:label="fragment_add_exercise"
         tools:layout="@layout/fragment_add_exercise" />
 </navigation>

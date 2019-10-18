@@ -5,18 +5,18 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
-import android.widget.LinearLayout
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.exercise_list_item.view.*
 import kotlinx.android.synthetic.main.fragment_main.*
 import no.hiof.edgarass.workouttracker.adapter.ExerciseAdapter
+import no.hiof.edgarass.workouttracker.database.AppDatabase
 import no.hiof.edgarass.workouttracker.model.Exercise
 import java.util.*
 import kotlin.collections.ArrayList
@@ -36,11 +36,23 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // show action bar only in main fragment
+
+        // Add existing exercises from database
+        val db = AppDatabase.getInstance(activity!!)!!.exerciseDao()
+        for (ex in db.getAll()) {
+            //db.delete(ex)
+            val temp = Exercise(ex.name!!, ex.sets!!, ex.reps!!, ex.weight!!, ex.unit!!)
+            if (!exerciseList.contains(temp))
+                exerciseList.add(temp)
+        }
+
+
+        // Show action bar only in main fragment
         val actionBar = (activity as AppCompatActivity).supportActionBar
         actionBar?.show()
         setHasOptionsMenu(true)
 
+        // Title of action bar = weekday
         actionBar?.title = Calendar.getInstance().getDisplayName(
             Calendar.DAY_OF_WEEK,
             Calendar.LONG,
@@ -48,21 +60,18 @@ class MainFragment : Fragment() {
         actionBar?.setBackgroundDrawable(ColorDrawable(Color.LTGRAY))
 
 
+        // Add new exercise fragment
         floating_action_button.setOnClickListener {
             it.findNavController().navigate(R.id.action_mainFragment_to_addExerciseFragment)
         }
 
-        //addExercises()
-
         setUpRecycleView()
-
     }
 
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // action bar clicks
-
+        // Respond to action bar clicks
         return when (item.itemId) {
-
             R.id.action_settings -> {
                 findNavController(mainFragment).navigate(R.id.action_mainFragment_to_settingsFragment)
                 return true
@@ -83,54 +92,20 @@ class MainFragment : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-
-    fun addExercises() {
-
-
-        val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-        params.setMargins(0, 30, 0, 0)
-
-
-        val ex1 = TextView(activity!!.applicationContext)
-        ex1.text = "Sq 3x5 15kg"
-        ex1.textSize = 30f
-        ex1.gravity = Gravity.CENTER
-        ex1.layoutParams = params
-        //main_layout.addView(ex1)
-
-        //val dl = Exercise("Dl", 3, 5, 40, "kg")
-        val ex3 = TextView(activity!!.applicationContext)
-        ex3.text = "Dl 3x5"
-        ex3.textSize = 30f
-        ex3.gravity = Gravity.CENTER
-        ex3.layoutParams = params
-
-        //main_layout.addView(ex3)
-    }
-
     private fun setUpRecycleView() {
-        // Set our own adapter to be used in the RecycleView, and sends it the data and creates the OnClickListener
-        // With the listener gets called when an item in the list is clicked
         exerciseRecycleView.adapter = ExerciseAdapter(exerciseList,
             View.OnClickListener { view ->
-                // Gets the position of the item that's clicked
-                //val position = exerciseRecycleView.getChildAdapterPosition(view)
+                val position = exerciseRecycleView.getChildAdapterPosition(view)
+                val clickedMovie = exerciseRecycleView[position]
 
-                // Gets the movie based on which item got clicked
-                //val clickedMovie = exerciseRecycleView[position]
+                findNavController().navigate(R.id.action_mainFragment_to_editExerciseFragment)
+                val name = clickedMovie.exerciseName.text
+                val sets = clickedMovie.exerciseSets.text.toString()
+                val reps = clickedMovie.exerciseReps.text.toString()
+                val weight = clickedMovie.exerciseWeight.text.toString()
+                val unit = clickedMovie.exerciseUnit.text
 
-                // Creates the navigation action, including the uid argument
-                //val action = MovieListFragmentDirections.actionMovieListToMovieDetailFragment(clickedMovie.uid)
-
-                // Calls the navigat action, taking us to the MovieDetailFragment
-                //findNavController().navigate(action)
-
-                // Creates a toast with the movie that got clicked
-                //Toast.makeText(view.context, clickedMovie.title + " clicked", Toast.LENGTH_LONG).show();
             })
-
-        // Sets the layoutmanager we want to use
-        //movieRecyclerView.layoutManager = GridLayoutManager(context, 3)
         exerciseRecycleView.layoutManager = LinearLayoutManager(context)
     }
 

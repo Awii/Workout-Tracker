@@ -8,38 +8,30 @@ import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import kotlinx.android.synthetic.main.fragment_add_exercise.*
+import kotlinx.android.synthetic.main.fragment_edit_exercise.*
 import kotlinx.android.synthetic.main.fragment_main.*
 import no.hiof.edgarass.workouttracker.database.AppDatabase
 import no.hiof.edgarass.workouttracker.database.ExerciseDb
 import no.hiof.edgarass.workouttracker.model.Exercise
 import java.lang.Exception
 
-class AddExerciseFragment : DialogFragment() {
+class EditExerciseFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
             val builder = AlertDialog.Builder(it)
             val inflater = requireActivity().layoutInflater
 
-            builder.setView(inflater.inflate(R.layout.fragment_add_exercise, mainFragment))
-                .setPositiveButton(R.string.add) {dialog, which ->
-                    // Hold field data
-                    val name = (dialog as Dialog).addExerciseName.text.toString()
-                    val sets = (dialog as Dialog).addExerciseSets.text.toString()
-                    val reps = (dialog as Dialog).addExerciseReps.text.toString()
-                    val weight = (dialog as Dialog).addExerciseWeight.text.toString()
-                    val unit = (dialog as Dialog).addExerciseUnit.text.toString()
 
-                    if (name.isNotBlank() && reps.isNotBlank() && sets.isNotBlank() && weight.isNotBlank() && unit.isNotBlank()) {
-                        addExercise(ExerciseDb(name, sets.toInt(), reps.toInt(), weight.toInt(), unit))
-                    } else {
-                        Toast.makeText(activity!!, R.string.cannotBeEmpty, Toast.LENGTH_LONG).show()
-                    }
+            builder.setView(inflater.inflate(R.layout.fragment_edit_exercise, mainFragment))
+                .setPositiveButton("edit") { dialog, which ->
                 }
                 .setNegativeButton(R.string.cancel) {dialog, which ->
                     dialog.dismiss()
                 }
+            editExerciseName.setText("asd")
             builder.create()
+
         } ?: throw Exception ("Could not inflate dialog")
     }
 

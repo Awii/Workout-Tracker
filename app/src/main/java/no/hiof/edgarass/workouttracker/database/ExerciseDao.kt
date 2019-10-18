@@ -1,28 +1,21 @@
 package no.hiof.edgarass.workouttracker.database
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface ExerciseDao {
-    @Query("SELECT * FROM exercise")
-    fun getAll(): List<Exercise>
+    @Query("SELECT * FROM exercisedb")
+    fun getAll(): List<ExerciseDb>
 
-    @Query("SELECT * FROM exercise WHERE uid IN (:userIds)")
-    fun loadAllByIds(userIds: IntArray): List<Exercise>
+    @Query("SELECT * FROM exercisedb WHERE uid IN (:userIds)")
+    fun loadAllByIds(userIds: IntArray): List<ExerciseDb>
 
-    @Query("SELECT * FROM exercise WHERE exercise_name LIKE :name LIMIT 1")
-    fun findByName(name: String): Exercise
+    @Query("SELECT * FROM exercisedb WHERE name LIKE :name LIMIT 1")
+    fun findByName(name: String): ExerciseDb
 
-    //@Insert
-    //fun insertOne(exercise: Exercise) {
-    //}
-
-    @Insert
-    fun insertAll(vararg exercises: Exercise)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertAll(vararg exerciseDbs: ExerciseDb)
 
     @Delete
-    fun delete(exercise: Exercise)
+    fun delete(exerciseDb: ExerciseDb)
 }

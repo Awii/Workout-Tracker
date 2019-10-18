@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_mainFragment_to_addExerciseFragment"
             app:destination="@id/addExerciseFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_editExerciseFragment"
+            app:destination="@id/editExerciseFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -35,4 +38,8 @@
         android:name="no.hiof.edgarass.workouttracker.AddExerciseFragment"
         android:label="fragment_add_exercise"
         tools:layout="@layout/fragment_add_exercise" />
+    <dialog
+        android:id="@+id/editExerciseFragment"
+        android:name="no.hiof.edgarass.workouttracker.EditExerciseFragment"
+        android:label="EditExerciseFragment" />
 </navigation>

@@ -5,6 +5,8 @@
     <string name="action_synchronize">Synchronize data</string>
     <string name="cancel">Cancel</string>
     <string name="add">Add</string>
+    <string name="cannotBeEmpty">The fields cannot be empty.</string>
+
 
 
     <!-- TODO: Remove or change this placeholder text -->

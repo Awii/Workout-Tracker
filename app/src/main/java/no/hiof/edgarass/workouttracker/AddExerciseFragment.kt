@@ -47,8 +47,9 @@ class AddExerciseFragment : DialogFragment() {
         // Add the exerciseDb to the exerciseDb database and object class
         val db = AppDatabase.getInstance(context!!)!!.exerciseDao()
         db.insertAll(exerciseDb)
-        Exercise.addExercises(Exercise(
-            exerciseDb.name!!, exerciseDb.sets!!, exerciseDb.reps!!, exerciseDb.weight!!, exerciseDb.unit!!))
+        // Immediately refresh MainFragment with the newly added Exercise
+        Exercise.addExercise(Exercise(
+           exerciseDb.name!!, exerciseDb.sets!!, exerciseDb.reps!!, exerciseDb.weight!!, exerciseDb.unit!!))
         Log.d("WWW", db.getAll().toString() + "\n")
     }
 

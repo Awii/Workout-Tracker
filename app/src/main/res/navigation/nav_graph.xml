@@ -20,8 +20,8 @@
             android:id="@+id/action_mainFragment_to_addExerciseFragment"
             app:destination="@id/addExerciseFragment" />
         <action
-            android:id="@+id/action_mainFragment_to_editExerciseFragment"
-            app:destination="@id/editExerciseFragment" />
+            android:id="@+id/action_mainFragment_to_removeExerciseFragment"
+            app:destination="@id/removeExerciseFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -39,7 +39,12 @@
         android:label="fragment_add_exercise"
         tools:layout="@layout/fragment_add_exercise" />
     <dialog
-        android:id="@+id/editExerciseFragment"
-        android:name="no.hiof.edgarass.workouttracker.EditExerciseFragment"
-        android:label="EditExerciseFragment" />
+        android:id="@+id/removeExerciseFragment"
+        android:name="no.hiof.edgarass.workouttracker.RemoveExerciseFragment"
+        android:label="RemoveExerciseFragment"
+        tools:layout="@layout/fragment_remove_exercise">
+        <argument
+            android:name="workoutName"
+            app:argType="string" />
+    </dialog>
 </navigation>

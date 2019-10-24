@@ -4,8 +4,8 @@ package no.hiof.edgarass.workouttracker
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.*
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
@@ -39,6 +39,7 @@ class MainFragment : Fragment() {
 
         // Add existing exercises from database
         val db = AppDatabase.getInstance(activity!!)!!.exerciseDao()
+        exerciseList.clear()
         for (ex in db.getAll()) {
             //db.delete(ex)
             val temp = Exercise(ex.name!!, ex.sets!!, ex.reps!!, ex.weight!!, ex.unit!!)
@@ -98,16 +99,21 @@ class MainFragment : Fragment() {
                 val position = exerciseRecycleView.getChildAdapterPosition(view)
                 val clickedMovie = exerciseRecycleView[position]
 
-                findNavController().navigate(R.id.action_mainFragment_to_editExerciseFragment)
-                val name = clickedMovie.exerciseName.text
-                val sets = clickedMovie.exerciseSets.text.toString()
-                val reps = clickedMovie.exerciseReps.text.toString()
-                val weight = clickedMovie.exerciseWeight.text.toString()
-                val unit = clickedMovie.exerciseUnit.text
+                val bundle = Bundle()
+                bundle.putString("name", clickedMovie.exerciseName.text.toString())
+
+                // Set arguments for RemoveExerciseFragment
+                val receiver = RemoveExerciseFragment()
+                receiver.setArguments(bundle)
+                Log.d("WWW", receiver.arguments?.getString("name"))
+
+
+                findNavController().navigate(R.id.action_mainFragment_to_removeExerciseFragment)
+
+
 
             })
         exerciseRecycleView.layoutManager = LinearLayoutManager(context)
     }
-
 
 }

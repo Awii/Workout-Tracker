@@ -1,14 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SynchronizeFragment">
+    android:orientation="vertical"
+    tools:context=".SynchronizeFragment"
+    android:layout_marginTop="200sp">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <EditText
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:id="@+id/synchUser"
+        android:height="64dp"
+        android:textSize="20sp"
+        android:gravity="left"
+        android:textStyle="bold"
+        android:textColor="#616161"
+        android:inputType="textEmailAddress"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
+        android:hint="E-mail">
+    </EditText>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:height="64dp"
+        android:textSize="20sp"
+        android:gravity="left"
+        android:textStyle="bold"
+        android:textColor="#616161"
+        android:id="@+id/synchPassword"
+        android:inputType="textPassword"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
+        android:hint="Password">
+    </EditText>
+    <Button
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:height="60dp"
+        android:layout_marginTop="16dp"
+        android:id="@+id/synchLogin"
+        android:text="Login">
+    </Button>
 
-</FrameLayout>
+</LinearLayout>

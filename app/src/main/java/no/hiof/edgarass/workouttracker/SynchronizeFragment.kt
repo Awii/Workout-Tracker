@@ -19,7 +19,9 @@ class SynchronizeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (activity as AppCompatActivity).supportActionBar?.hide()
+        val appBar = (activity as AppCompatActivity).supportActionBar
+        appBar?.setTitle("Backup data")
+        appBar?.show()
 
     }
 }

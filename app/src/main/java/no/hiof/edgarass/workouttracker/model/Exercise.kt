@@ -8,9 +8,18 @@ data class Exercise (var name : String, var sets : Int, var reps : Int, var weig
             return data
         }
 
-        fun addExercises(exercise: Exercise) {
+        fun addExercise(exercise: Exercise) {
             if (!data.contains(exercise)) {
                 data.add(exercise)
+            }
+        }
+
+        fun removeExercise(name: String) {
+            for (ex in data) {
+                if (ex.name.equals(name)) {
+                    data.remove(ex)
+                    return
+                }
             }
         }
     }

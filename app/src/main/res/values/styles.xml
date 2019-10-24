@@ -3,16 +3,16 @@
     <!-- Base application theme. -->
     <style name="LightTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorLightPrimary</item>
-        <item name="colorPrimaryDark">@color/colorLightPrimaryDark</item>
-        <item name="colorAccent">@color/colorLightAccent</item>
+        <item name="colorPrimary">@color/lightThemePrimary</item>
+        <item name="colorSecondary">@color/lightThemeSecondary</item>
+        <item name="colorAccent">@color/lightThemeAccent</item>
     </style>
 
     <style name="DarkTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorDarkPrimary</item>
-        <item name="colorPrimaryDark">@color/colorDarkPrimaryLight</item>
-        <item name="colorAccent">@color/colorDarkAccent</item>
+        <item name="colorPrimary">@color/darkThemePrimary</item>
+        <item name="colorSecondary">@color/darkThemeSecondary</item>
+        <item name="colorAccent">@color/darkThemeAccent</item>
     </style>
 
 

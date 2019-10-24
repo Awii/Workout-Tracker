@@ -3,12 +3,12 @@
     <color name="lightThemePrimary">#CCCCCC</color>
     <color name="lightThemeSecondary">#969696</color>
     <color name="lightThemeAccent">#80CBC4</color>
-    <color name="lightThemeGradient1">#FFFFFF</color>
-    <color name="lightThemeGradient2">#DBB0A8</color>
+    <color name="lightBackgroundGradient1">#FFFFFF</color>
+    <color name="lightBackgroundGradient2">#DBB0A8</color>
 
     <color name="darkThemePrimary">#E2E2E2</color>
     <color name="darkThemeSecondary">#ABABAB</color>
     <color name="darkThemeAccent">#3949AB</color>
-    <color name="darkThemeGradient1">#777777</color>
-    <color name="darkThemeGradient2">#55342E</color>
+    <color name="darkBackgroundGradient1">#777777</color>
+    <color name="darkBackgroundGradient2">#55342E</color>
 </resources>

@@ -5,6 +5,7 @@ import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.PreferenceManager
 
 class SettingsFragment : Fragment() {
 
@@ -29,4 +30,5 @@ class SettingsFragment : Fragment() {
             setPreferencesFromResource(R.xml.preferences, rootKey)
         }
     }
+
 }

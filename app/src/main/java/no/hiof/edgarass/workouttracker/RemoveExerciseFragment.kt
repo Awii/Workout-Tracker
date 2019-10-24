@@ -1,16 +1,12 @@
 package no.hiof.edgarass.workouttracker
 
-
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import androidx.fragment.app.DialogFragment
-import kotlinx.android.synthetic.main.exercise_list_item.view.*
 import kotlinx.android.synthetic.main.fragment_main.*
 import no.hiof.edgarass.workouttracker.database.AppDatabase
-import no.hiof.edgarass.workouttracker.model.Exercise
 import java.lang.Exception
 
 class RemoveExerciseFragment : DialogFragment() {
@@ -26,10 +22,7 @@ class RemoveExerciseFragment : DialogFragment() {
                     val db = AppDatabase.getInstance(context!!)!!.exerciseDao()
                     val name = arguments?.getString("name")
 
-                    // TODO: update delete
                     db.delete(db.findByName(name!!))
-                    Exercise.removeExercise(name)
-
 
                 }
                 .setNegativeButton(R.string.cancel) {dialog, which ->
@@ -46,7 +39,4 @@ class RemoveExerciseFragment : DialogFragment() {
         } ?: throw Exception ("Could not inflate dialog")
 
     }
-
-
-
 }

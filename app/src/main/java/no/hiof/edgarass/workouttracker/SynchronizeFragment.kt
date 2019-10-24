@@ -12,7 +12,6 @@ class SynchronizeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_synchronize, container, false)
     }
 
@@ -20,8 +19,7 @@ class SynchronizeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val appBar = (activity as AppCompatActivity).supportActionBar
-        appBar?.setTitle("Backup data")
+        appBar?.title = "Backup data"
         appBar?.show()
-
     }
 }

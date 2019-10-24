@@ -13,7 +13,7 @@ interface ExerciseDao {
     @Query("SELECT * FROM exercisedb WHERE name LIKE :name LIMIT 1")
     fun findByName(name: String): ExerciseDb
 
-    /* TODO: DB error: DELETE query methods must either return void or int (the number of deleted rows)
+    /* Low priority TODO: DB error: DELETE query methods must either return void or int (the number of deleted rows)
     @Query("DELETE FROM exercisedb WHERE name LIKE :name")
     fun deleteByName(name: String) : ExerciseDb
     */

@@ -1,6 +1,5 @@
 package no.hiof.edgarass.workouttracker.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,4 +41,5 @@ class ExerciseAdapter(private val items: ArrayList<Exercise>, var clickListener:
             this.itemView.setOnClickListener(clickListener)
         }
     }
+
 }

@@ -3,7 +3,6 @@ package no.hiof.edgarass.workouttracker.database
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverter
 
 @Entity
 data class ExerciseDb (

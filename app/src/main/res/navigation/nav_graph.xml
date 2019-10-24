@@ -42,9 +42,5 @@
         android:id="@+id/removeExerciseFragment"
         android:name="no.hiof.edgarass.workouttracker.RemoveExerciseFragment"
         android:label="RemoveExerciseFragment"
-        tools:layout="@layout/fragment_remove_exercise">
-        <argument
-            android:name="workoutName"
-            app:argType="string" />
-    </dialog>
+        tools:layout="@layout/fragment_remove_exercise"/>
 </navigation>

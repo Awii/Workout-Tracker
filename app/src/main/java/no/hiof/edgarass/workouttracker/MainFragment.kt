@@ -1,10 +1,9 @@
 package no.hiof.edgarass.workouttracker
 
-
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
+import android.os.Handler
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.get
@@ -28,32 +27,20 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_main, container, false)
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        updateExerciseList()
 
-        // Add existing exercises from database
-        val db = AppDatabase.getInstance(activity!!)!!.exerciseDao()
-        exerciseList.clear()
-        for (ex in db.getAll()) {
-            //db.delete(ex)
-            val temp = Exercise(ex.name!!, ex.sets!!, ex.reps!!, ex.weight!!, ex.unit!!)
-            if (!exerciseList.contains(temp))
-                exerciseList.add(temp)
-        }
-
-
-        // Show action bar only in main fragment
+        // Show action bar
         val actionBar = (activity as AppCompatActivity).supportActionBar
         actionBar?.show()
         setHasOptionsMenu(true)
 
-        // Title of action bar = weekday
+        // Title of action bar := weekday
         actionBar?.title = Calendar.getInstance().getDisplayName(
             Calendar.DAY_OF_WEEK,
             Calendar.LONG,
@@ -68,7 +55,6 @@ class MainFragment : Fragment() {
 
         setUpRecycleView()
     }
-
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Respond to action bar clicks
@@ -97,23 +83,38 @@ class MainFragment : Fragment() {
         exerciseRecycleView.adapter = ExerciseAdapter(exerciseList,
             View.OnClickListener { view ->
                 val position = exerciseRecycleView.getChildAdapterPosition(view)
-                val clickedMovie = exerciseRecycleView[position]
+                val clickExercise = exerciseRecycleView[position]
 
+                // Put name of the exercise to RemoveExerciseFragment so it can identify which exercise to remove
                 val bundle = Bundle()
-                bundle.putString("name", clickedMovie.exerciseName.text.toString())
+                bundle.putString("name", clickExercise.exerciseName.text.toString())
 
                 // Set arguments for RemoveExerciseFragment
                 val receiver = RemoveExerciseFragment()
-                receiver.setArguments(bundle)
-                Log.d("WWW", receiver.arguments?.getString("name"))
+                receiver.arguments = bundle
 
+                findNavController().navigate(R.id.action_mainFragment_to_removeExerciseFragment, bundle)
 
-                findNavController().navigate(R.id.action_mainFragment_to_removeExerciseFragment)
-
-
-
+                // Work-around for updating the view after deleting an exercise
+                val handler = Handler()
+                handler.postDelayed({
+                    onDelete()
+                }, 3000)
             })
         exerciseRecycleView.layoutManager = LinearLayoutManager(context)
     }
 
+    fun updateExerciseList() {
+        // Add existing exercises from database
+        val db = AppDatabase.getInstance(activity!!)!!.exerciseDao()
+        exerciseList.clear()
+        for (ex in db.getAll()) {
+            exerciseList.add(Exercise(ex.name!!, ex.sets!!, ex.reps!!, ex.weight!!, ex.unit!!))
+        }
+    }
+
+    fun onDelete() {
+        updateExerciseList()
+        setUpRecycleView()
+    }
 }

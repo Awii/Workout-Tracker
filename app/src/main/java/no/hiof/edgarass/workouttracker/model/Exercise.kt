@@ -16,7 +16,7 @@ data class Exercise (var name : String, var sets : Int, var reps : Int, var weig
 
         fun removeExercise(name: String) {
             for (ex in data) {
-                if (ex.name.equals(name)) {
+                if (ex.name == name) {
                     data.remove(ex)
                     return
                 }

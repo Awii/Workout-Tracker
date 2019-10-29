@@ -3,15 +3,19 @@ package no.hiof.edgarass.workouttracker
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import androidx.preference.PreferenceManager
 import kotlinx.android.synthetic.main.fragment_add_exercise.*
 import kotlinx.android.synthetic.main.fragment_main.*
 import no.hiof.edgarass.workouttracker.database.AppDatabase
 import no.hiof.edgarass.workouttracker.database.ExerciseDb
 import no.hiof.edgarass.workouttracker.model.Exercise
 import java.lang.Exception
+import java.util.*
 
 class AddExerciseFragment : DialogFragment() {
 
@@ -26,6 +30,7 @@ class AddExerciseFragment : DialogFragment() {
                     // (dialog as Dialog) Resolves nptr exceptions from fields
 
                     // Hold field data
+                    val routine = (dialog as Dialog).addExerciseSpinner.selectedItem.toString()
                     val name = (dialog as Dialog).addExerciseName.text.toString()
                     val sets = (dialog as Dialog).addExerciseSets.text.toString()
                     val reps = (dialog as Dialog).addExerciseReps.text.toString()
@@ -34,7 +39,7 @@ class AddExerciseFragment : DialogFragment() {
 
                     // Check fields before adding a new exercise to the database
                     if (name.isNotBlank() && reps.isNotBlank() && sets.isNotBlank() && weight.isNotBlank() && unit.isNotBlank()) {
-                        addExercise(ExerciseDb(name, sets.toInt(), reps.toInt(), weight.toInt(), unit))
+                        addExercise(ExerciseDb(routine, name, sets.toInt(), reps.toInt(), weight.toInt(), unit))
                     } else {
                         // TODO: Keep dialog open
                         Toast.makeText(activity!!, R.string.cannotBeEmpty, Toast.LENGTH_LONG).show()
@@ -45,6 +50,7 @@ class AddExerciseFragment : DialogFragment() {
                 }
             builder.create()
         } ?: throw Exception ("Could not inflate dialog")
+
     }
 
     fun addExercise(exerciseDb : ExerciseDb) {
@@ -53,8 +59,21 @@ class AddExerciseFragment : DialogFragment() {
         db.insertAll(exerciseDb)
 
         // Immediately refresh MainFragment with the newly added Exercise (?)
+        val exDaysA = PreferenceManager.getDefaultSharedPreferences(context).getStringSet("exercise_daysA", null)
+        val exDaysB = PreferenceManager.getDefaultSharedPreferences(context).getStringSet("exercise_daysB", null)
+        val exDaysC = PreferenceManager.getDefaultSharedPreferences(context).getStringSet("exercise_daysC", null)
+
+        val today = Calendar.getInstance().getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())
+        var exDay = ""
+
+        when {
+            exDaysA!!.contains(today) -> exDay = "A"
+            exDaysB!!.contains(today) -> exDay = "B"
+            exDaysC!!.contains(today) -> exDay = "C"
+        }
+        if (exerciseDb.routine == exDay)
         Exercise.addExercise(Exercise(
-           exerciseDb.name!!, exerciseDb.sets!!, exerciseDb.reps!!, exerciseDb.weight!!, exerciseDb.unit!!))
+           exerciseDb.routine!!, exerciseDb.name!!, exerciseDb.sets!!, exerciseDb.reps!!, exerciseDb.weight!!, exerciseDb.unit!!))
     }
 
 }

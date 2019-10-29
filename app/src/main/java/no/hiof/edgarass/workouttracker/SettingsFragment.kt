@@ -3,9 +3,13 @@ package no.hiof.edgarass.workouttracker
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.marginTop
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.preference.*
+import kotlinx.android.synthetic.main.fragment_settings.*
 
 
 class SettingsFragment : Fragment() {
@@ -21,9 +25,12 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         (activity as AppCompatActivity).supportFragmentManager.beginTransaction()
-            .replace(R.id.settings, SettingsFragment()).commit()
+            .replace(R.id.settingsLayout, SettingsFragment()).commit()
 
-        (activity as AppCompatActivity).supportActionBar?.hide()
+
+        val actionBar = (activity as AppCompatActivity).supportActionBar
+        actionBar!!.title = resources.getString(R.string.action_settings)
+        actionBar.show()
     }
 
     class SettingsFragment : PreferenceFragmentCompat() {
@@ -33,12 +40,11 @@ class SettingsFragment : Fragment() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.preferences, rootKey)
 
-
             val sharedPrefs = preferenceManager.sharedPreferences
 
             // Top preference category
             val workoutCategory = PreferenceCategory(activity)
-            workoutCategory.title = resources.getString(R.string.workout)
+            workoutCategory.title = resources.getString(R.string.workout_category)
             preferenceScreen.addPreference(workoutCategory)
 
             // Choices of 1 to 3 different workouts during the week (usual is 1 to 2)
@@ -94,6 +100,26 @@ class SettingsFragment : Fragment() {
 
                 preferenceScreen.addPreference(multiSelectPref)
             }
+
+            // Second preference category
+            val otherCategory = PreferenceCategory(activity)
+            otherCategory.title = resources.getString(R.string.other_category)
+            preferenceScreen.addPreference(otherCategory)
+
+
+            // Change language
+            val language = ListPreference(activity)
+            language.key = "language"
+            language.title = resources.getString(R.string.language)
+            language.setDefaultValue("1")
+            language.summary = resources.getString(R.string.language_summary)
+            language.entries = arrayOf("English", "Norsk")
+            language.entryValues = arrayOf("1", "2")
+
+            preferenceScreen.addPreference(language)
+
+
+            // Implement nuke db?
         }
 
         private fun charSequenceToStringsDaily(set : CharSequence) : String {

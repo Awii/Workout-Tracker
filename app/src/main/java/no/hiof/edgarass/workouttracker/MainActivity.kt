@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -41,7 +42,11 @@ class MainActivity : AppCompatActivity() {
                 resources.getString(R.string.sunday)
             )
 
+            // All days by default
             editor.putStringSet("exercise_daysA", weekdays.toSet())
+            // nullptr exception
+            editor.putStringSet("exercise_daysB", Collections.emptySet())
+            editor.putStringSet("exercise_daysC", Collections.emptySet())
             editor.apply()
         }
     }

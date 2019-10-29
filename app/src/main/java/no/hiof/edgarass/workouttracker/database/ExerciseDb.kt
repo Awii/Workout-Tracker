@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class ExerciseDb (
+    @ColumnInfo(name = "routine") val routine: String?,
     @ColumnInfo(name = "name") val name: String?,
     @ColumnInfo(name = "sets") val sets: Int?,
     @ColumnInfo(name = "reps") val reps: Int?,

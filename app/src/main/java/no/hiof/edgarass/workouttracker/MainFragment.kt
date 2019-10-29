@@ -5,12 +5,19 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.view.*
+import android.widget.FrameLayout
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.get
+import androidx.core.view.marginTop
+import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.exercise_list_item.view.*
 import kotlinx.android.synthetic.main.fragment_main.*
@@ -19,6 +26,9 @@ import no.hiof.edgarass.workouttracker.database.AppDatabase
 import no.hiof.edgarass.workouttracker.model.Exercise
 import java.util.*
 import kotlin.collections.ArrayList
+import android.view.Gravity
+
+
 
 class MainFragment : Fragment() {
     private var exerciseList : ArrayList<Exercise> = Exercise.getExercises()
@@ -40,11 +50,24 @@ class MainFragment : Fragment() {
         actionBar?.show()
         setHasOptionsMenu(true)
 
-        // Title of action bar := weekday
-        actionBar?.title = Calendar.getInstance().getDisplayName(
-            Calendar.DAY_OF_WEEK,
-            Calendar.LONG,
-            Locale.getDefault())
+        // Customize action bar title
+        val exDaysA = PreferenceManager.getDefaultSharedPreferences(context).getStringSet("exercise_daysA", null)
+        val exDaysB = PreferenceManager.getDefaultSharedPreferences(context).getStringSet("exercise_daysB", null)
+        val exDaysC = PreferenceManager.getDefaultSharedPreferences(context).getStringSet("exercise_daysC", null)
+
+        val today = Calendar.getInstance().getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())
+        var exDay = ""
+
+        if (exDaysA!!.contains(today)) {
+            exDay = ", A"
+        } else if (exDaysB!!.contains(today)){
+            exDay = ", B"
+        } else if (exDaysC!!.contains(today)){
+            exDay = ", C"
+        }
+
+        // Title of action bar = Weekday, A
+        actionBar?.title = today + exDay
         actionBar?.setBackgroundDrawable(ColorDrawable(Color.LTGRAY))
 
 
@@ -107,9 +130,39 @@ class MainFragment : Fragment() {
     fun updateExerciseList() {
         // Add existing exercises from database
         val db = AppDatabase.getInstance(activity!!)!!.exerciseDao()
+
+        val exDaysA = PreferenceManager.getDefaultSharedPreferences(context).getStringSet("exercise_daysA", null)
+        val exDaysB = PreferenceManager.getDefaultSharedPreferences(context).getStringSet("exercise_daysB", null)
+        val exDaysC = PreferenceManager.getDefaultSharedPreferences(context).getStringSet("exercise_daysC", null)
+
+        val today = Calendar.getInstance().getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())
+        var exDay = ""
+
+        when {
+            exDaysA!!.contains(today) -> exDay = "A"
+            exDaysB!!.contains(today) -> exDay = "B"
+            exDaysC!!.contains(today) -> exDay = "C"
+        }
+
         exerciseList.clear()
         for (ex in db.getAll()) {
-            exerciseList.add(Exercise(ex.name!!, ex.sets!!, ex.reps!!, ex.weight!!, ex.unit!!))
+            if (ex.routine!! == exDay) {
+                exerciseList.add(Exercise(ex.routine!!, ex.name!!, ex.sets!!, ex.reps!!, ex.weight!!, ex.unit!!))
+            }
+        }
+
+        if (exerciseList.isEmpty() && exDay == "") {
+            // TODO: center
+
+            val tv = TextView(activity)
+            tv.text = resources.getString(R.string.rest_day)
+            tv.textSize = 30f
+            tv.setPadding(20, 150, 20, 0)
+            tv.gravity = Gravity.CENTER
+
+            val fl = RelativeLayout(activity!!)
+            fl.addView(tv)
+            mainFragment.addView(fl)
         }
     }
 

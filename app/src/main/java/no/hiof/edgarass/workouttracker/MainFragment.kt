@@ -5,14 +5,10 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.view.*
-import android.widget.FrameLayout
-import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.get
-import androidx.core.view.marginTop
-import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
@@ -71,9 +67,12 @@ class MainFragment : Fragment() {
         actionBar?.setBackgroundDrawable(ColorDrawable(Color.LTGRAY))
 
 
-        // Add new exercise fragment
-        floating_action_button.setOnClickListener {
+        // Floating action button navigation
+        floating_action_button_add_exercise.setOnClickListener {
             it.findNavController().navigate(R.id.action_mainFragment_to_addExerciseFragment)
+        }
+        floating_action_button_finish_workout.setOnClickListener {
+            it.findNavController().navigate(R.id.action_mainFragment_to_finishWorkout)
         }
 
         setUpRecycleView()
@@ -127,7 +126,7 @@ class MainFragment : Fragment() {
         exerciseRecycleView.layoutManager = LinearLayoutManager(context)
     }
 
-    fun updateExerciseList() {
+    private fun updateExerciseList() {
         // Add existing exercises from database
         val db = AppDatabase.getInstance(activity!!)!!.exerciseDao()
 
@@ -146,7 +145,7 @@ class MainFragment : Fragment() {
 
         exerciseList.clear()
         for (ex in db.getAll()) {
-            if (ex.routine!! == exDay) {
+            if (ex.routine == exDay) {
                 exerciseList.add(Exercise(ex.routine!!, ex.name!!, ex.sets!!, ex.reps!!, ex.weight!!, ex.unit!!))
             }
         }
@@ -166,7 +165,7 @@ class MainFragment : Fragment() {
         }
     }
 
-    fun onDelete() {
+    private fun onDelete() {
         updateExerciseList()
         setUpRecycleView()
     }

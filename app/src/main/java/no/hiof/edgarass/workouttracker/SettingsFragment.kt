@@ -119,6 +119,9 @@ class SettingsFragment : Fragment() {
             preferenceScreen.addPreference(language)
 
 
+            // Remind service, turn off/change time
+
+
             // Implement nuke db?
         }
 

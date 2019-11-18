@@ -1,19 +1,21 @@
 <resources>
 
-    <style name="LightTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="LightTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/lightThemePrimary</item>
         <item name="colorSecondary">@color/lightThemeSecondary</item>
         <item name="colorAccent">@color/lightThemeAccent</item>
         <item name="backgroundGradient1">@color/lightBackgroundGradient1</item>
         <item name="backgroundGradient2">@color/lightBackgroundGradient2</item>
+        <item name="android:statusBarColor">@color/lightThemePrimary</item>
     </style>
 
-    <style name="DarkTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+    <style name="DarkTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/darkThemePrimary</item>
         <item name="colorSecondary">@color/darkThemeSecondary</item>
         <item name="colorAccent">@color/darkThemeAccent</item>
         <item name="backgroundGradient1">@color/darkBackgroundGradient1</item>
         <item name="backgroundGradient2">@color/darkBackgroundGradient2</item>
+        <item name="android:statusBarColor">@color/darkThemePrimary</item>
     </style>
 
     <declare-styleable name="BackgroundGradients">

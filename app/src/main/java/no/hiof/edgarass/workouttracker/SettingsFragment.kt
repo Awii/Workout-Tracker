@@ -29,8 +29,9 @@ class SettingsFragment : Fragment() {
 
 
         val actionBar = (activity as AppCompatActivity).supportActionBar
-        actionBar!!.title = resources.getString(R.string.action_settings)
-        actionBar.show()
+        actionBar?.title = resources.getString(R.string.action_settings)
+        actionBar?.setDisplayHomeAsUpEnabled(false)
+        actionBar?.show()
     }
 
     class SettingsFragment : PreferenceFragmentCompat() {

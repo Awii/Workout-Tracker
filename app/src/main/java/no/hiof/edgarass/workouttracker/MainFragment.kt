@@ -44,6 +44,7 @@ class MainFragment : Fragment() {
         // Show action bar
         val actionBar = (activity as AppCompatActivity).supportActionBar
         actionBar?.show()
+        actionBar?.setDisplayHomeAsUpEnabled(false)
         setHasOptionsMenu(true)
 
         // Customize action bar title
@@ -118,10 +119,10 @@ class MainFragment : Fragment() {
                 findNavController().navigate(R.id.action_mainFragment_to_removeExerciseFragment, bundle)
 
                 // Work-around for updating the view after deleting an exercise
-                val handler = Handler()
+                /*val handler = Handler()
                 handler.postDelayed({
                     onDelete()
-                }, 3000)
+                }, 3000)*/
             })
         exerciseRecycleView.layoutManager = LinearLayoutManager(context)
     }

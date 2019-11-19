@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/exerciseName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Exercise"
+        android:textColor="#616161"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        tool:layout_constraintStart_toStartOf="parent"
+        tool:layout_constraintTop_toTopOf="parent">
+    </TextView>
+
+    <TextView
+        android:id="@+id/exerciseWeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="40"
+        android:textColor="#616161"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        tool:layout_constraintStart_toEndOf="@+id/exerciseName"
+        tool:layout_constraintTop_toTopOf="parent">
+    </TextView>
+
+    <EditText
+        android:id="@+id/exerciseIncrement"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/darkThemePrimary"
+        android:paddingTop="0dp"
+        android:paddingBottom="0dp"
+        android:inputType="numberDecimal"
+        android:text="2.5"
+        android:textColor="#616161"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        tool:layout_constraintStart_toEndOf="@+id/exerciseWeight"
+        tool:layout_constraintTop_toTopOf="parent">
+    </EditText>
+
+    <TextView
+        android:id="@+id/exerciseUnit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="kg"
+        android:textColor="#616161"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        tool:layout_constraintStart_toEndOf="@+id/exerciseIncrement"
+        tool:layout_constraintTop_toTopOf="parent">
+    </TextView>
+
+</LinearLayout>

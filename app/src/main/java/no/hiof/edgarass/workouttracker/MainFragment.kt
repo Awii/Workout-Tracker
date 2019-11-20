@@ -3,7 +3,7 @@ package no.hiof.edgarass.workouttracker
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.os.Handler
+import android.util.Log
 import android.view.*
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -23,8 +23,6 @@ import no.hiof.edgarass.workouttracker.model.Exercise
 import java.util.*
 import kotlin.collections.ArrayList
 import android.view.Gravity
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 
 
 class MainFragment : Fragment() {
@@ -56,16 +54,16 @@ class MainFragment : Fragment() {
         val today = Calendar.getInstance().getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())
         var exDay = ""
 
-        if (exDaysA!!.contains(today)) {
-            exDay = ", A"
-        } else if (exDaysB!!.contains(today)){
-            exDay = ", B"
-        } else if (exDaysC!!.contains(today)){
-            exDay = ", C"
-        }
+        // Possible to combine multiple workout days into one day
+        if (exDaysA!!.contains(today))
+            exDay += "A"
+        if (exDaysB!!.contains(today))
+            exDay += "B"
+        if (exDaysC!!.contains(today))
+            exDay += "C"
 
         // Title of action bar = Weekday, A
-        actionBar?.title = today + exDay
+        actionBar?.title = (today!! + ", " + exDay)
         actionBar?.setBackgroundDrawable(ColorDrawable(Color.LTGRAY))
 
 
@@ -109,15 +107,15 @@ class MainFragment : Fragment() {
                 val position = exerciseRecycleView.getChildAdapterPosition(view)
                 val clickExercise = exerciseRecycleView[position]
 
-                // Put name of the exercise to RemoveExerciseFragment so it can identify which exercise to remove
+                // Put name of the exercise to EditExerciseFragment so it can identify which exercise to remove
                 val bundle = Bundle()
                 bundle.putString("name", clickExercise.exerciseName.text.toString())
 
-                // Set arguments for RemoveExerciseFragment
-                val receiver = RemoveExerciseFragment()
+                // Set arguments for EditExerciseFragment
+                val receiver = EditExerciseFragment()
                 receiver.arguments = bundle
 
-                findNavController().navigate(R.id.action_mainFragment_to_removeExerciseFragment, bundle)
+                findNavController().navigate(R.id.action_mainFragment_to_editExerciseFragment, bundle)
                 true
             })
         exerciseRecycleView.layoutManager = LinearLayoutManager(context)
@@ -134,15 +132,17 @@ class MainFragment : Fragment() {
         val today = Calendar.getInstance().getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())
         var exDay = ""
 
-        when {
-            exDaysA!!.contains(today) -> exDay = "A"
-            exDaysB!!.contains(today) -> exDay = "B"
-            exDaysC!!.contains(today) -> exDay = "C"
-        }
+        // Possible to combine multiple workout days into one day
+        if (exDaysA!!.contains(today))
+            exDay += "A"
+        if (exDaysB!!.contains(today))
+            exDay += "B"
+        if (exDaysC!!.contains(today))
+            exDay += "C"
 
         exerciseList.clear()
         for (ex in db.getAll()) {
-            if (ex.routine == exDay) {
+            if (exDay.contains(ex.routine!!)) {
                 exerciseList.add(Exercise(ex.routine!!, ex.name!!, ex.sets!!, ex.reps!!, ex.weight!!, ex.unit!!, ex.increment!!))
             }
         }

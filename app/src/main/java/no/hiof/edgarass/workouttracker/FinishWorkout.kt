@@ -2,6 +2,7 @@ package no.hiof.edgarass.workouttracker
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.fragment.app.Fragment
@@ -14,6 +15,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.finish_workout_list_item.*
+import kotlinx.android.synthetic.main.finish_workout_list_item.view.*
 import no.hiof.edgarass.workouttracker.adapter.FinishWorkoutAdapter
 
 
@@ -55,7 +57,7 @@ class FinishWorkout : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.finish_workout_menu, menu)
+        inflater.inflate(R.menu.menu_finish_workout, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -82,6 +84,10 @@ class FinishWorkout : Fragment() {
 
     private fun updateExercises() {
         val db = AppDatabase.getInstance(activity!!)!!.exerciseDao()
+
+
+        Log.d("asd", finish_workout_recycler_view.exerciseIncrement.text.toString())
+
         for (ex in exerciseList) {
             db.updateWeight(
                 ex.name,
@@ -105,16 +111,16 @@ class FinishWorkout : Fragment() {
         val today = Calendar.getInstance().getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())
         var exDay = ""
 
-        when {
-            exDaysA!!.contains(today) -> exDay = "A"
-            exDaysB!!.contains(today) -> exDay = "B"
-            exDaysC!!.contains(today) -> exDay = "C"
-        }
+        if (exDaysA!!.contains(today))
+            exDay += "A"
+        if (exDaysB!!.contains(today))
+            exDay += "B"
+        if (exDaysC!!.contains(today))
+            exDay += "C"
 
-        // Fill exerciseList with exercises from db
         exerciseList.clear()
         for (ex in db.getAll()) {
-            if (ex.routine == exDay) {
+            if (exDay.contains(ex.routine!!)) {
                 exerciseList.add(Exercise(ex.routine!!, ex.name!!, ex.sets!!, ex.reps!!, ex.weight!!, ex.unit!!, ex.increment!!))
             }
         }

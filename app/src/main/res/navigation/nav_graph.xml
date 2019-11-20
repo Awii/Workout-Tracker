@@ -20,11 +20,11 @@
             android:id="@+id/action_mainFragment_to_addExerciseFragment"
             app:destination="@id/addExerciseFragment" />
         <action
-            android:id="@+id/action_mainFragment_to_removeExerciseFragment"
-            app:destination="@id/removeExerciseFragment" />
-        <action
             android:id="@+id/action_mainFragment_to_finishWorkout"
             app:destination="@id/finishWorkout" />
+        <action
+            android:id="@+id/action_mainFragment_to_editExerciseFragment"
+            app:destination="@id/editExerciseFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -36,19 +36,19 @@
         android:name="no.hiof.edgarass.workouttracker.SynchronizeFragment"
         android:label="fragment_synchronize"
         tools:layout="@layout/fragment_synchronize" />
-    <dialog
+    <fragment
         android:id="@+id/addExerciseFragment"
         android:name="no.hiof.edgarass.workouttracker.AddExerciseFragment"
         android:label="fragment_add_exercise"
         tools:layout="@layout/fragment_add_exercise" />
     <fragment
-        android:id="@+id/removeExerciseFragment"
-        android:name="no.hiof.edgarass.workouttracker.RemoveExerciseFragment"
-        android:label="RemoveExerciseFragment"
-        tools:layout="@layout/fragment_remove_exercise"/>
-    <fragment
         android:id="@+id/finishWorkout"
         android:name="no.hiof.edgarass.workouttracker.FinishWorkout"
         android:label="fragment_finish_workout"
         tools:layout="@layout/fragment_finish_workout" />
+    <fragment
+        android:id="@+id/editExerciseFragment"
+        android:name="no.hiof.edgarass.workouttracker.EditExerciseFragment"
+        android:label="EditExerciseFragment"
+        tools:layout="@layout/fragment_edit_exercise" />
 </navigation>

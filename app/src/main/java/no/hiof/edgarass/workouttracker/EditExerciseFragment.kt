@@ -2,18 +2,20 @@ package no.hiof.edgarass.workouttracker
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.fragment_remove_exercise.*
+import kotlinx.android.synthetic.main.fragment_add_exercise.*
+import kotlinx.android.synthetic.main.fragment_edit_exercise.*
 import no.hiof.edgarass.workouttracker.database.AppDatabase
 
-class RemoveExerciseFragment : Fragment() {
+class EditExerciseFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_remove_exercise, container, false)
+        return inflater.inflate(R.layout.fragment_edit_exercise, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -30,7 +32,7 @@ class RemoveExerciseFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         // Custom action bar
-        //inflater.inflate(R.menu.finish_workout_menu, menu)
+        //inflater.inflate(R.menu.menu_finish_workout, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -48,9 +50,9 @@ class RemoveExerciseFragment : Fragment() {
 
     private fun dialogFunctionality() {
         val db = AppDatabase.getInstance(context!!)!!.exerciseDao()
-        val name = arguments?.getString("name")
+        val argName = arguments?.getString("name")
 
-        val exercise = db.findByName(name!!)
+        val exercise = db.findByName(argName!!)
 
         editExerciseName.setText(exercise.name)
         editExerciseSets.setText(exercise.sets.toString())
@@ -69,23 +71,28 @@ class RemoveExerciseFragment : Fragment() {
             editExerciseIncrement.text.clear()
         }
         btn_delete.setOnClickListener {
-            db.delete(db.findByName(name!!))
+            db.delete(db.findByName(argName!!))
             view!!.clearFocus()
             activity!!.onBackPressed()
         }
         btn_edit.setOnClickListener {
-            db.updateExercise(
-                name,
-                editExerciseSpinner.selectedItem.toString(),
-                editExerciseName.text.toString(),
-                editExerciseSets.text.toString().toInt(),
-                editExerciseReps.text.toString().toInt(),
-                editExerciseWeight.text.toString().toDouble(),
-                editExerciseUnit.text.toString(),
-                editExerciseIncrement.text.toString().toDouble()
-            )
-            view!!.clearFocus()
-            activity!!.onBackPressed()
+
+            // Hold field data
+            val routine = editExerciseSpinner.selectedItem.toString()
+            val name = editExerciseName.text.toString()
+            val sets = editExerciseSets.text.toString()
+            val reps = editExerciseReps.text.toString()
+            val weight = editExerciseWeight.text.toString()
+            val unit = editExerciseUnit.text.toString()
+            val increment = editExerciseIncrement.text.toString()
+
+            if (name.isNotBlank() && reps.isNotBlank() && sets.isNotBlank() && weight.isNotBlank() && unit.isNotBlank() && increment.isNotBlank()) {
+                db.updateExercise(argName, routine, name, sets.toInt(), reps.toInt(), weight.toDouble(), unit, increment.toDouble())
+                view!!.clearFocus()
+                activity!!.onBackPressed()
+            } else {
+                Toast.makeText(context, R.string.cannotBeEmpty, Toast.LENGTH_LONG).show()
+            }
         }
     }
 }

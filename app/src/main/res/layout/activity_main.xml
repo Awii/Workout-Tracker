@@ -14,7 +14,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/settingsMenu"
             android:layout_width="match_parent"

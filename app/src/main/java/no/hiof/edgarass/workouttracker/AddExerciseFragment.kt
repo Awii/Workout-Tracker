@@ -39,7 +39,7 @@ class AddExerciseFragment : DialogFragment() {
 
                     // Check fields before adding a new exercise to the database
                     if (name.isNotBlank() && reps.isNotBlank() && sets.isNotBlank() && weight.isNotBlank() && unit.isNotBlank()) {
-                        addExercise(ExerciseDb(routine, name, sets.toInt(), reps.toInt(), weight.toInt(), unit))
+                        addExercise(ExerciseDb(routine, name, sets.toInt(), reps.toInt(), weight.toDouble(), unit, 2.5))
                     } else {
                         // TODO: Keep dialog open
                         Toast.makeText(activity!!, R.string.cannotBeEmpty, Toast.LENGTH_LONG).show()
@@ -73,7 +73,7 @@ class AddExerciseFragment : DialogFragment() {
         }
         if (exerciseDb.routine == exDay)
         Exercise.addExercise(Exercise(
-           exerciseDb.routine!!, exerciseDb.name!!, exerciseDb.sets!!, exerciseDb.reps!!, exerciseDb.weight!!, exerciseDb.unit!!))
+           exerciseDb.routine!!, exerciseDb.name!!, exerciseDb.sets!!, exerciseDb.reps!!, exerciseDb.weight!!, exerciseDb.unit!!, exerciseDb.increment!!))
     }
 
 }

@@ -23,7 +23,8 @@ import no.hiof.edgarass.workouttracker.model.Exercise
 import java.util.*
 import kotlin.collections.ArrayList
 import android.view.Gravity
-
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 
 
 class MainFragment : Fragment() {
@@ -104,7 +105,7 @@ class MainFragment : Fragment() {
 
     private fun setUpRecycleView() {
         exerciseRecycleView.adapter = ExerciseAdapter(exerciseList,
-            View.OnClickListener { view ->
+            View.OnLongClickListener { view ->
                 val position = exerciseRecycleView.getChildAdapterPosition(view)
                 val clickExercise = exerciseRecycleView[position]
 
@@ -117,12 +118,7 @@ class MainFragment : Fragment() {
                 receiver.arguments = bundle
 
                 findNavController().navigate(R.id.action_mainFragment_to_removeExerciseFragment, bundle)
-
-                // Work-around for updating the view after deleting an exercise
-                /*val handler = Handler()
-                handler.postDelayed({
-                    onDelete()
-                }, 3000)*/
+                true
             })
         exerciseRecycleView.layoutManager = LinearLayoutManager(context)
     }
@@ -147,7 +143,7 @@ class MainFragment : Fragment() {
         exerciseList.clear()
         for (ex in db.getAll()) {
             if (ex.routine == exDay) {
-                exerciseList.add(Exercise(ex.routine!!, ex.name!!, ex.sets!!, ex.reps!!, ex.weight!!, ex.unit!!))
+                exerciseList.add(Exercise(ex.routine!!, ex.name!!, ex.sets!!, ex.reps!!, ex.weight!!, ex.unit!!, ex.increment!!))
             }
         }
 

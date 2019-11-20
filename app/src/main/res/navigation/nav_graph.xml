@@ -41,7 +41,7 @@
         android:name="no.hiof.edgarass.workouttracker.AddExerciseFragment"
         android:label="fragment_add_exercise"
         tools:layout="@layout/fragment_add_exercise" />
-    <dialog
+    <fragment
         android:id="@+id/removeExerciseFragment"
         android:name="no.hiof.edgarass.workouttracker.RemoveExerciseFragment"
         android:label="RemoveExerciseFragment"

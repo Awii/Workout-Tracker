@@ -1,42 +1,91 @@
 package no.hiof.edgarass.workouttracker
 
-import android.app.AlertDialog
-import android.app.Dialog
 import android.os.Bundle
-import android.os.Handler
-import androidx.fragment.app.DialogFragment
-import kotlinx.android.synthetic.main.fragment_main.*
+import android.view.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import kotlinx.android.synthetic.main.fragment_remove_exercise.*
 import no.hiof.edgarass.workouttracker.database.AppDatabase
-import java.lang.Exception
 
-class RemoveExerciseFragment : DialogFragment() {
+class RemoveExerciseFragment : Fragment() {
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return activity?.let {
-            val builder = AlertDialog.Builder(it)
-            val inflater = requireActivity().layoutInflater
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_remove_exercise, container, false)
+    }
 
-            builder.setView(inflater.inflate(R.layout.fragment_remove_exercise, mainFragment))
-                .setPositiveButton("Delete") { dialog, which ->
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-                    val db = AppDatabase.getInstance(context!!)!!.exerciseDao()
-                    val name = arguments?.getString("name")
+        val actionBar = (activity as AppCompatActivity).supportActionBar
+        actionBar?.setDisplayHomeAsUpEnabled(true)
+        actionBar?.show()
+        actionBar?.title = null
+        setHasOptionsMenu(true)
 
-                    db.delete(db.findByName(name!!))
+        dialogFunctionality()
+    }
 
-                }
-                .setNegativeButton(R.string.cancel) {dialog, which ->
-                    dialog.dismiss()
-                }
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        // Custom action bar
+        //inflater.inflate(R.menu.finish_workout_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
 
-            // Dismiss the dialog window after 3 seconds
-            val handler = Handler()
-            handler.postDelayed({
-                dialog?.dismiss()
-            }, 3000)
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                // Hide keyboard if it's open
+                view!!.clearFocus()
+                activity!!.onBackPressed()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
-            builder.create()
-        } ?: throw Exception ("Could not inflate dialog")
+    private fun dialogFunctionality() {
+        val db = AppDatabase.getInstance(context!!)!!.exerciseDao()
+        val name = arguments?.getString("name")
 
+        val exercise = db.findByName(name!!)
+
+        editExerciseName.setText(exercise.name)
+        editExerciseSets.setText(exercise.sets.toString())
+        editExerciseReps.setText(exercise.reps.toString())
+        editExerciseWeight.setText(exercise.weight.toString())
+        editExerciseUnit.setText(exercise.unit)
+        editExerciseIncrement.setText(exercise.increment.toString())
+
+        btn_clear.setOnClickListener {
+            editExerciseSpinner.setSelection(0)
+            editExerciseName.text.clear()
+            editExerciseSets.text.clear()
+            editExerciseReps.text.clear()
+            editExerciseWeight.text.clear()
+            editExerciseUnit.text.clear()
+            editExerciseIncrement.text.clear()
+        }
+        btn_delete.setOnClickListener {
+            db.delete(db.findByName(name!!))
+            view!!.clearFocus()
+            activity!!.onBackPressed()
+        }
+        btn_edit.setOnClickListener {
+            db.updateExercise(
+                name,
+                editExerciseSpinner.selectedItem.toString(),
+                editExerciseName.text.toString(),
+                editExerciseSets.text.toString().toInt(),
+                editExerciseReps.text.toString().toInt(),
+                editExerciseWeight.text.toString().toDouble(),
+                editExerciseUnit.text.toString(),
+                editExerciseIncrement.text.toString().toDouble()
+            )
+            view!!.clearFocus()
+            activity!!.onBackPressed()
+        }
     }
 }

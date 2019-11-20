@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.exercise_list_item.view.*
 import no.hiof.edgarass.workouttracker.R
 import no.hiof.edgarass.workouttracker.model.Exercise
 
-class ExerciseAdapter(private val items: ArrayList<Exercise>, var clickListener: View.OnClickListener) : RecyclerView.Adapter<ExerciseAdapter.ExerciseViewHolder>() {
+class ExerciseAdapter(private val items: ArrayList<Exercise>, var clickListener: View.OnLongClickListener) : RecyclerView.Adapter<ExerciseAdapter.ExerciseViewHolder>() {
     override fun getItemCount(): Int {
         return items.size
     }
@@ -31,14 +31,14 @@ class ExerciseAdapter(private val items: ArrayList<Exercise>, var clickListener:
         private val exerciseUnit : TextView = view.exerciseUnit
         private val exerciseWeight : TextView = view.exerciseWeight
 
-        fun bind(item: Exercise, clickListener: View.OnClickListener) {
+        fun bind(item: Exercise, clickListener: View.OnLongClickListener) {
             exerciseName.text = item.name
             exerciseReps.text = item.reps.toString()
             exerciseSets.text = item.sets.toString()
             exerciseUnit.text = item.unit
             exerciseWeight.text = item.weight.toString()
 
-            this.itemView.setOnClickListener(clickListener)
+            this.itemView.setOnLongClickListener(clickListener)
         }
     }
 

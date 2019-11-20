@@ -1,34 +1,19 @@
 package no.hiof.edgarass.workouttracker
 
 
-import android.content.res.ColorStateList
-import android.graphics.Color
-import android.graphics.ColorFilter
 import android.os.Bundle
-import android.os.Handler
-import android.util.Log
 import android.view.*
+import android.widget.*
 import androidx.fragment.app.Fragment
-import android.widget.FrameLayout
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NavUtils
-import androidx.core.view.marginTop
 import androidx.preference.PreferenceManager
 import kotlinx.android.synthetic.main.fragment_finish_workout.*
 import no.hiof.edgarass.workouttracker.database.AppDatabase
 import no.hiof.edgarass.workouttracker.model.Exercise
 import java.util.*
 import kotlin.collections.ArrayList
-import android.widget.LinearLayout
-import android.widget.Spinner
-import androidx.core.view.get
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.exercise_list_item.view.*
 import kotlinx.android.synthetic.main.finish_workout_list_item.*
-import kotlinx.android.synthetic.main.fragment_main.*
-import no.hiof.edgarass.workouttracker.adapter.ExerciseAdapter
 import no.hiof.edgarass.workouttracker.adapter.FinishWorkoutAdapter
 
 
@@ -58,7 +43,7 @@ class FinishWorkout : Fragment() {
         }
 
 
-        addStuff()
+        setUpRecycleView()
 
         /*val fabConfirm = floating_action_button_finish_workout_confirm
         fabConfirm.isEnabled = false
@@ -79,11 +64,15 @@ class FinishWorkout : Fragment() {
             android.R.id.home -> {
                 // Hide keyboard if it's open
                 view!!.clearFocus()
-                activity!!.onBackPressed()//
+                activity!!.onBackPressed()
                 return true
             }
             R.id.confirm_button -> {
-                // TODO confirm button
+                updateExercises()
+                // Hide keyboard if it's open
+                view!!.clearFocus()
+                activity!!.onBackPressed()
+                Toast.makeText(activity, "Updated successfully", Toast.LENGTH_SHORT).show()
                 return true
             }
         }
@@ -91,8 +80,22 @@ class FinishWorkout : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun addStuff() {
-        // Get exercises
+    private fun updateExercises() {
+        val db = AppDatabase.getInstance(activity!!)!!.exerciseDao()
+        for (ex in exerciseList) {
+            db.updateWeight(
+                ex.name,
+                ex.weight + ex.increment,
+                ex.increment
+            )
+        }
+    }
+
+    private fun setUpRecycleView() {
+        finish_workout_recycler_view.adapter = FinishWorkoutAdapter(exerciseList)
+        finish_workout_recycler_view.layoutManager = LinearLayoutManager(context)
+
+        // Find current weekday
         val db = AppDatabase.getInstance(activity!!)!!.exerciseDao()
 
         val exDaysA = PreferenceManager.getDefaultSharedPreferences(context).getStringSet("exercise_daysA", null)
@@ -108,42 +111,12 @@ class FinishWorkout : Fragment() {
             exDaysC!!.contains(today) -> exDay = "C"
         }
 
+        // Fill exerciseList with exercises from db
         exerciseList.clear()
         for (ex in db.getAll()) {
             if (ex.routine == exDay) {
-                exerciseList.add(Exercise(ex.routine!!, ex.name!!, ex.sets!!, ex.reps!!, ex.weight!!, ex.unit!!))
+                exerciseList.add(Exercise(ex.routine!!, ex.name!!, ex.sets!!, ex.reps!!, ex.weight!!, ex.unit!!, ex.increment!!))
             }
         }
-
-
-        finish_workout_recycler_view.adapter = FinishWorkoutAdapter(exerciseList)
-        finish_workout_recycler_view.layoutManager = LinearLayoutManager(context)
-
-        //exerciseIncrement.backgroundTintList = ColorStateList.valueOf(2444)
-
-        /*/*/*
-        //val params = FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT)
-         */
-        //params.setMargins(0, 20, 0, 0)
-
-
-        var spinnerArray = ArrayList<String>()
-
-        val sp = Spinner(activity)
-        for (ex in exerciseList) {
-            spinnerArray.add(ex.name)
-            /*
-            val tv = TextView(activity)
-            tv.textSize = 20f
-            tv.text = ex.name
-            sp.addView(tv)
-        }
-        layout.addView(sp)
-
-        //layout.addView()
-
-    }
-    */*/*/
-
     }
 }

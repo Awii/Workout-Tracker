@@ -1,15 +1,164 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
-    <TextView
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightThemeTertiary">
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:text="Remove exercise?"
-        android:textSize="24sp"
-        android:gravity="center"
-        android:textStyle="bold"
-        android:textColor="#616161"
-        android:background="@color/lightThemePrimary"
-        android:contentDescription="@string/app_name" />
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:layout_marginLeft="?attr/actionBarSize"
+        android:layout_marginRight="?attr/actionBarSize"
+        android:gravity="center">
+
+        <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="8dp"
+        android:elevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@color/lightThemePrimary"
+                        android:contentDescription="@string/app_name"
+                        android:gravity="center"
+                        android:text="Edit exercise"
+                        android:textColor="#616161"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginRight="4dp"
+                        android:text="@string/workout_routine"
+                        android:textSize="18sp" />
+
+                    <Spinner
+                        android:id="@+id/editExerciseSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginRight="4dp"
+                        android:drawSelectorOnTop="true"
+                        android:entries="@array/workout_routines"
+                        android:tooltipText="Workout routine" />
+
+                    <EditText
+                        android:id="@+id/editExerciseName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginRight="4dp"
+                        android:hint="Name"
+                        android:inputType="textNoSuggestions" />
+
+                    <EditText
+                        android:id="@+id/editExerciseSets"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginRight="4dp"
+                        android:hint="Sets"
+                        android:inputType="numberSigned" />
+
+                    <EditText
+                        android:id="@+id/editExerciseReps"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginRight="4dp"
+                        android:hint="Reps"
+                        android:inputType="numberSigned" />
+
+                    <EditText
+                        android:id="@+id/editExerciseWeight"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginRight="4dp"
+                        android:hint="Weight"
+                        android:inputType="numberDecimal" />
+
+                    <EditText
+                        android:id="@+id/editExerciseUnit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginRight="4dp"
+                        android:hint="Unit"
+                        android:inputType="textNoSuggestions" />
+
+                    <EditText
+                        android:id="@+id/editExerciseIncrement"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginRight="4dp"
+                        android:hint="Increment"
+                        android:inputType="textNoSuggestions" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal"
+                    android:layout_gravity="end"
+                    android:gravity="end">
+
+                    <Button
+                        android:id="@+id/btn_clear"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Clear"
+                        android:layout_marginEnd="10dp"
+                        android:backgroundTint="@color/lightThemeTertiary"/>
+
+                    <Button
+                        android:id="@+id/btn_delete"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Delete"
+                        android:layout_marginEnd="10dp"
+                        android:backgroundTint="@color/lightThemeTertiary"/>
+
+                    <Button
+                        android:id="@+id/btn_edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Edit"
+                        android:backgroundTint="@color/lightThemeTertiary"/>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+
+</FrameLayout>

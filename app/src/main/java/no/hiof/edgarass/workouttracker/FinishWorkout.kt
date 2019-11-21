@@ -2,7 +2,6 @@ package no.hiof.edgarass.workouttracker
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.fragment.app.Fragment
@@ -14,9 +13,8 @@ import no.hiof.edgarass.workouttracker.model.Exercise
 import java.util.*
 import kotlin.collections.ArrayList
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.finish_workout_list_item.*
-import kotlinx.android.synthetic.main.finish_workout_list_item.view.*
 import no.hiof.edgarass.workouttracker.adapter.FinishWorkoutAdapter
+import kotlin.math.round
 
 
 class FinishWorkout : Fragment() {
@@ -39,20 +37,7 @@ class FinishWorkout : Fragment() {
         supportBar?.title = "Finish workout" // TODO R.string
         supportBar?.setDisplayHomeAsUpEnabled(true)
 
-
-        floating_action_button_finish_workout_back.setOnClickListener {
-            //activity!!.onBackPressed()
-        }
-
-
         setUpRecycleView()
-
-        /*val fabConfirm = floating_action_button_finish_workout_confirm
-        fabConfirm.isEnabled = false
-        fabConfirm.alpha = 0f
-        fabConfirm.setOnClickListener {
-
-        }*/
 
     }
 
@@ -85,13 +70,10 @@ class FinishWorkout : Fragment() {
     private fun updateExercises() {
         val db = AppDatabase.getInstance(activity!!)!!.exerciseDao()
 
-
-        Log.d("asd", finish_workout_recycler_view.exerciseIncrement.text.toString())
-
         for (ex in exerciseList) {
             db.updateWeight(
                 ex.name,
-                ex.weight + ex.increment,
+                round((ex.weight + ex.increment) * 100) / 100, // max 2 decimals, floating point error
                 ex.increment
             )
         }

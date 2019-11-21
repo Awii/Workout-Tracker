@@ -1,11 +1,13 @@
 package no.hiof.edgarass.workouttracker.adapter
 
 import android.text.Editable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
+import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.exercise_list_item.view.exerciseName
 import kotlinx.android.synthetic.main.exercise_list_item.view.exerciseUnit
@@ -13,8 +15,11 @@ import kotlinx.android.synthetic.main.exercise_list_item.view.exerciseWeight
 import kotlinx.android.synthetic.main.finish_workout_list_item.view.*
 import no.hiof.edgarass.workouttracker.R
 import no.hiof.edgarass.workouttracker.model.Exercise
+import java.lang.NumberFormatException
+import kotlin.math.round
 
 class FinishWorkoutAdapter(private val items: ArrayList<Exercise>) : RecyclerView.Adapter<FinishWorkoutAdapter.ExerciseViewHolder>() {
+    private var hashMap = HashMap<String, String>()
     override fun getItemCount(): Int {
         return items.size
     }
@@ -27,12 +32,19 @@ class FinishWorkoutAdapter(private val items: ArrayList<Exercise>) : RecyclerVie
     override fun onBindViewHolder(holder: ExerciseViewHolder, position: Int) {
         val currentExercise = items[position]
         holder.bind(currentExercise)
+        holder.exerciseIncrement.doAfterTextChanged {
+            try {
+                currentExercise.increment = it.toString().toDouble()
+            } catch (e: NumberFormatException) {
+                // Catching empty string error
+            }
+        }
     }
 
     class ExerciseViewHolder (view: View) : RecyclerView.ViewHolder(view) {
         private val exerciseName : TextView = view.exerciseName
         private val exerciseWeight : TextView = view.exerciseWeight
-        private val exerciseIncrement : EditText = view.exerciseIncrement
+        val exerciseIncrement : EditText = view.exerciseIncrement
         private val exerciseUnit : TextView = view.exerciseUnit
 
         fun bind(item: Exercise) {
@@ -40,8 +52,11 @@ class FinishWorkoutAdapter(private val items: ArrayList<Exercise>) : RecyclerVie
             exerciseWeight.text = (item.weight.toString() + " + ")
             exerciseIncrement.setText(item.increment.toString())
             exerciseUnit.text = item.unit
-
         }
+    }
+
+    fun getHashMap() : HashMap<String, String> {
+        return hashMap
     }
 
 }

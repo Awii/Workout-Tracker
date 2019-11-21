@@ -1,15 +1,14 @@
 package no.hiof.edgarass.workouttracker
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.*
-import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.marginTop
-import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.preference.*
-import kotlinx.android.synthetic.main.fragment_settings.*
+import android.util.Log
+import java.util.*
 
 
 class SettingsFragment : Fragment() {
@@ -28,20 +27,35 @@ class SettingsFragment : Fragment() {
             .replace(R.id.settingsLayout, SettingsFragment()).commit()
 
 
+        setHasOptionsMenu(true)
         val actionBar = (activity as AppCompatActivity).supportActionBar
         actionBar?.title = resources.getString(R.string.action_settings)
-        actionBar?.setDisplayHomeAsUpEnabled(false)
+        actionBar?.setDisplayHomeAsUpEnabled(true)
         actionBar?.show()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                // Hide keyboard if it's open
+                MainActivity.hideKeyboard(context!!, view!!)
+                view!!.clearFocus()
+                activity!!.onBackPressed()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     class SettingsFragment : PreferenceFragmentCompat() {
 
-        //override fun
-
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.preferences, rootKey)
-
             val sharedPrefs = preferenceManager.sharedPreferences
+
+            /*
+                Workout
+             */
 
             // Top preference category
             val workoutCategory = PreferenceCategory(activity)
@@ -60,6 +74,11 @@ class SettingsFragment : Fragment() {
             // Update summary on change
             differentWorkouts.setOnPreferenceChangeListener { preference, newValue ->
                 preference.summary = newValue.toString()
+                val fragment = no.hiof.edgarass.workouttracker.SettingsFragment()
+
+                // Reloads the fragment
+                (activity as AppCompatActivity).supportFragmentManager.beginTransaction()
+                    .replace(R.id.settingsLayout, SettingsFragment()).commit()
                 true
             }
             preferenceScreen.addPreference(differentWorkouts)
@@ -69,38 +88,34 @@ class SettingsFragment : Fragment() {
             // Multiple lists depending on differentWorkouts
             val amtMultiSelectLists = sharedPrefs.getString("different_workouts", null)!!.toInt()
 
-            val weekdays = arrayOf(
-                resources.getString(R.string.monday),
-                resources.getString(R.string.tuesday),
-                resources.getString(R.string.wednesday),
-                resources.getString(R.string.thursday),
-                resources.getString(R.string.friday),
-                resources.getString(R.string.saturday),
-                resources.getString(R.string.sunday)
-            )
+            val weekdaysLocal = arrayOf(resources.getString(R.string.monday), resources.getString(R.string.tuesday), resources.getString(R.string.wednesday), resources.getString(R.string.thursday), resources.getString(R.string.friday), resources.getString(R.string.saturday), resources.getString(R.string.sunday))
+            val weekdays = arrayOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
 
             val workoutsToInt = arrayOf("A", "B", "C")
             // 1 to 3 MultiSelectLists
             for (i in 0 until amtMultiSelectLists) {
                 val multiSelectPref = MultiSelectListPreference(activity)
 
-                multiSelectPref.setOnPreferenceChangeListener { preference, newValue ->
-                    preference.summary = charSequenceToStringsDaily(newValue.toString())
-                    true
-                }
-
                 // multiple preferences like exercise_daysA etc
                 multiSelectPref.key = "exercise_days" + workoutsToInt[i]
                 multiSelectPref.title = resources.getString(R.string.exercise_days) + " " + workoutsToInt[i]
-                multiSelectPref.entries = weekdays
+                multiSelectPref.entries = weekdaysLocal
                 multiSelectPref.entryValues = weekdays
 
                 val charSeq = sharedPrefs.getStringSet("exercise_days" + workoutsToInt[i], null).toString()
                 val summary = charSequenceToStringsDaily(charSeq)
                 multiSelectPref.summary = summary
+                multiSelectPref.setOnPreferenceChangeListener { preference, newValue ->
+                    preference.summary = charSequenceToStringsDaily(newValue.toString())
+                    true
+                }
 
                 preferenceScreen.addPreference(multiSelectPref)
             }
+
+            /*
+                Other
+             */
 
             // Second preference category
             val otherCategory = PreferenceCategory(activity)
@@ -112,36 +127,66 @@ class SettingsFragment : Fragment() {
             val language = ListPreference(activity)
             language.key = "language"
             language.title = resources.getString(R.string.language)
-            language.setDefaultValue("1")
+            language.setDefaultValue("en")
             language.summary = resources.getString(R.string.language_summary)
             language.entries = arrayOf("English", "Norsk")
-            language.entryValues = arrayOf("1", "2")
+            language.entryValues = arrayOf("en", "no")
+            language.setOnPreferenceChangeListener { preference, newValue ->
+                sharedPrefs.edit().putString(preference.key, newValue.toString()).apply()
+
+                val res = context!!.resources
+                val conf = res.configuration
+                Locale.setDefault(Locale(newValue.toString()))
+                conf.setLocale(Locale(newValue.toString()))
+                res.updateConfiguration(conf, res.displayMetrics) // deprecated but works
+                context!!.createConfigurationContext(conf)
+                activity!!.recreate()
+
+                true
+            }
 
             preferenceScreen.addPreference(language)
 
+            val openMaps = Preference(activity)
+            openMaps.key = "openMaps"
+            openMaps.title = "Find gyms near me " // Todo R.string
+            openMaps.setOnPreferenceClickListener {
+                Log.d("asd", "clicked")
+                val intent = Intent(Intent.ACTION_VIEW,
+                    Uri.parse("geo:0,0?q=Gym"))
+                startActivity(intent)
+                true
+            }
+
+            preferenceScreen.addPreference(openMaps)
 
             // Remind service, turn off/change time
 
+            // Find gym maps
 
             // Implement nuke db?
+
+            // Buy me beer
+
+            // Themes
         }
 
         private fun charSequenceToStringsDaily(set : CharSequence) : String {
             var temp = ""
-            if (set.contains(resources.getString(R.string.monday), true))
+            if (set.contains("Monday", true))
                 temp += resources.getString(R.string.monday) + " "
-            if (set.contains(resources.getString(R.string.tuesday), true))
+            if (set.contains("Tuesday", true))
                 temp += resources.getString(R.string.tuesday) + " "
-            if (set.contains(resources.getString(R.string.wednesday), true))
+            if (set.contains("Wednesday", true))
                 temp += resources.getString(R.string.wednesday) + " "
-            if (set.contains(resources.getString(R.string.thursday), true))
+            if (set.contains("Thursday", true))
                 temp += resources.getString(R.string.thursday) + " "
-            if (set.contains(resources.getString(R.string.friday), true))
+            if (set.contains("Friday", true))
                 temp += resources.getString(R.string.friday) + " "
-            if (set.contains(resources.getString(R.string.saturday), true))
+            if (set.contains("Saturday", true))
                 temp += resources.getString(R.string.saturday) + " "
-            if (set.contains(resources.getString(R.string.sunday), true))
-                temp += resources.getString(R.string.sunday) + " "
+            if (set.contains("Sunday", true))
+                temp += resources.getString(R.string.sunday)
             return temp
         }
     }

@@ -77,7 +77,7 @@
                         android:layout_marginTop="2dp"
                         android:layout_marginRight="4dp"
                         android:hint="Sets"
-                        android:inputType="numberSigned" />
+                        android:inputType="number" />
 
                     <EditText
                         android:id="@+id/addExerciseReps"
@@ -87,7 +87,7 @@
                         android:layout_marginTop="2dp"
                         android:layout_marginRight="4dp"
                         android:hint="Reps"
-                        android:inputType="numberSigned" />
+                        android:inputType="number" />
 
                     <EditText
                         android:id="@+id/addExerciseWeight"
@@ -117,7 +117,7 @@
                         android:layout_marginTop="2dp"
                         android:layout_marginRight="4dp"
                         android:hint="Increment"
-                        android:inputType="numberSigned|numberDecimal" />
+                        android:inputType="numberDecimal|numberSigned" />
 
                 </LinearLayout>
 

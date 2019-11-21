@@ -25,13 +25,13 @@ class FinishWorkout : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_finish_workout, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setHasOptionsMenu(true)
         val supportBar = (activity as AppCompatActivity).supportActionBar
         supportBar?.show()
         supportBar?.title = "Finish workout" // TODO R.string
@@ -50,6 +50,7 @@ class FinishWorkout : Fragment() {
         when (item.itemId) {
             android.R.id.home -> {
                 // Hide keyboard if it's open
+                MainActivity.hideKeyboard(context!!, view!!)
                 view!!.clearFocus()
                 activity!!.onBackPressed()
                 return true
@@ -57,13 +58,13 @@ class FinishWorkout : Fragment() {
             R.id.confirm_button -> {
                 updateExercises()
                 // Hide keyboard if it's open
+                MainActivity.hideKeyboard(context!!, view!!)
                 view!!.clearFocus()
                 activity!!.onBackPressed()
                 Toast.makeText(activity, "Updated successfully", Toast.LENGTH_SHORT).show()
                 return true
             }
         }
-
         return super.onOptionsItemSelected(item)
     }
 
@@ -90,7 +91,7 @@ class FinishWorkout : Fragment() {
         val exDaysB = PreferenceManager.getDefaultSharedPreferences(context).getStringSet("exercise_daysB", null)
         val exDaysC = PreferenceManager.getDefaultSharedPreferences(context).getStringSet("exercise_daysC", null)
 
-        val today = Calendar.getInstance().getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())
+        val today = Calendar.getInstance().getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale("en"))
         var exDay = ""
 
         if (exDaysA!!.contains(today))

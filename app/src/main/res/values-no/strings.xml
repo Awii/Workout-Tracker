@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">NO_Workout Tracker</string>
+
+    <string name="action_settings">NO_Settings</string>
+    <string name="action_synchronize">NO_Synchronize data</string>
+    <string name="cancel">NO_Cancel</string>
+    <string name="add">NO_Add</string>
+    <string name="cannotBeEmpty">NO_The fields cannot be empty.</string>
+
+    <string name="workout_routine">NO_Workout routine</string>
+    <string-array name="workout_routines">NO_
+        <item>A</item>
+        <item>B</item>
+        <item>C</item>
+    </string-array>
+
+    <string name="workout_category">NO_Workout</string>
+    <string name="exercise_days">NO_Exercise days</string>
+    <string name="different_workouts">NO_Different workouts</string>
+
+    <string name="other_category">NO_Other</string>
+    <string name="language">NO_Language</string>
+    <string name="language_summary">NO_Change the language of the application</string>
+
+    <string name="rest_day">NO_Happy rest day.</string>
+
+    <string name="monday">NO_Monday</string>
+    <string name="tuesday">NO_Tuesday</string>
+    <string name="wednesday">NO_Wednesday</string>
+    <string name="thursday">NO_Thursday</string>
+    <string name="friday">NO_Friday</string>
+    <string name="saturday">NO_Saturday</string>
+    <string name="sunday">NO_Sunday</string>
+    <string name="finish_workout">NO_Finish workout</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">NO_Hello blank fragment</string>
+
+</resources>

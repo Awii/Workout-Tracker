@@ -1,15 +1,24 @@
 package no.hiof.edgarass.workouttracker
 
+import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
+import android.app.Activity
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setLocale(this)
 
         val sharedpref = PreferenceManager.getDefaultSharedPreferences(this)
         if (sharedpref.getBoolean("dark_theme", false)) { // if true -> enabled
@@ -17,7 +26,6 @@ class MainActivity : AppCompatActivity() {
         } else {
             setTheme(R.style.LightTheme)
         }
-
 
         setContentView(R.layout.activity_main)
         setSupportActionBar(settingsMenu)
@@ -32,15 +40,7 @@ class MainActivity : AppCompatActivity() {
             val editor = sharedPrefs.edit()
             editor.putString("different_workouts", "1")
 
-            val weekdays = arrayOf(
-                resources.getString(R.string.monday),
-                resources.getString(R.string.tuesday),
-                resources.getString(R.string.wednesday),
-                resources.getString(R.string.thursday),
-                resources.getString(R.string.friday),
-                resources.getString(R.string.saturday),
-                resources.getString(R.string.sunday)
-            )
+            val weekdays = arrayOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
 
             // All days by default
             editor.putStringSet("exercise_daysA", weekdays.toSet())
@@ -50,4 +50,23 @@ class MainActivity : AppCompatActivity() {
             editor.apply()
         }
     }
+
+    companion object {
+
+        fun setLocale(context: Context) {
+            val lang = PreferenceManager.getDefaultSharedPreferences(context).getString("language", "en").toString()
+            val res = context.resources
+            val conf = res.configuration
+            Locale.setDefault(Locale(lang))
+            conf.setLocale(Locale(lang))
+            res.updateConfiguration(Configuration(), res.displayMetrics)
+            context.createConfigurationContext(conf)
+        }
+
+        fun hideKeyboard(context: Context, view: View) {
+            val imm = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(view.windowToken, 0)
+        }
+    }
+
 }

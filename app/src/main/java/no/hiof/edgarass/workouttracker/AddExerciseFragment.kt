@@ -45,6 +45,7 @@ class AddExerciseFragment : Fragment() {
         when (item.itemId) {
             android.R.id.home -> {
                 // Hide keyboard if it's open
+                MainActivity.hideKeyboard(context!!, view!!)
                 view!!.clearFocus()
                 activity!!.onBackPressed()
                 return true
@@ -70,6 +71,7 @@ class AddExerciseFragment : Fragment() {
 
         if (name.isNotBlank() && reps.isNotBlank() && sets.isNotBlank() && weight.isNotBlank() && unit.isNotBlank() && increment.isNotBlank()) {
             db.insertAll(ExerciseDb(routine, name, sets.toInt(), reps.toInt(), weight.toDouble(), unit, increment.toDouble()))
+            MainActivity.hideKeyboard(context!!, view!!)
             view!!.clearFocus()
             activity!!.onBackPressed()
         } else {

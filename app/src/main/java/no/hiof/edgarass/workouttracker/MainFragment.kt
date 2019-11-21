@@ -51,7 +51,8 @@ class MainFragment : Fragment() {
         val exDaysB = PreferenceManager.getDefaultSharedPreferences(context).getStringSet("exercise_daysB", null)
         val exDaysC = PreferenceManager.getDefaultSharedPreferences(context).getStringSet("exercise_daysC", null)
 
-        val today = Calendar.getInstance().getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())
+        val todayLocal = Calendar.getInstance().getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()).capitalize()
+        val today = Calendar.getInstance().getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale("en"))
         var exDay = ""
 
         // Possible to combine multiple workout days into one day
@@ -63,7 +64,10 @@ class MainFragment : Fragment() {
             exDay += "C"
 
         // Title of action bar = Weekday, A
-        actionBar?.title = (today!! + ", " + exDay)
+        var isDay = ""
+        if (exDay != "") isDay = ", $exDay"
+
+        actionBar?.title = todayLocal + isDay
         actionBar?.setBackgroundDrawable(ColorDrawable(Color.LTGRAY))
 
 
@@ -129,7 +133,7 @@ class MainFragment : Fragment() {
         val exDaysB = PreferenceManager.getDefaultSharedPreferences(context).getStringSet("exercise_daysB", null)
         val exDaysC = PreferenceManager.getDefaultSharedPreferences(context).getStringSet("exercise_daysC", null)
 
-        val today = Calendar.getInstance().getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())
+        val today = Calendar.getInstance().getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale("en"))
         var exDay = ""
 
         // Possible to combine multiple workout days into one day
@@ -160,10 +164,5 @@ class MainFragment : Fragment() {
             fl.addView(tv)
             mainFragment.addView(fl)
         }
-    }
-
-    private fun onDelete() {
-        updateExerciseList()
-        setUpRecycleView()
     }
 }

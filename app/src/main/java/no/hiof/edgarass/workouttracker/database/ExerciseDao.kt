@@ -24,4 +24,8 @@ interface ExerciseDao {
 
     @Delete
     fun delete(exerciseDb: ExerciseDb)
+
+    @Query("DELETE FROM exercisedb")
+    fun deleteAll()
+
 }

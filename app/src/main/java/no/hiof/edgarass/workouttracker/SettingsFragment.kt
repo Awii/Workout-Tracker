@@ -1,13 +1,20 @@
 package no.hiof.edgarass.workouttracker
 
+import android.app.AlertDialog
+import android.app.Dialog
+import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.AttributeSet
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.preference.*
 import android.util.Log
+import androidx.fragment.app.DialogFragment
+import no.hiof.edgarass.workouttracker.database.AppDatabase
 import java.util.*
 
 
@@ -147,6 +154,8 @@ class SettingsFragment : Fragment() {
 
             preferenceScreen.addPreference(language)
 
+
+            // Find gyms near me
             val openMaps = Preference(activity)
             openMaps.key = "openMaps"
             openMaps.title = "Find gyms near me " // Todo R.string
@@ -160,13 +169,30 @@ class SettingsFragment : Fragment() {
 
             preferenceScreen.addPreference(openMaps)
 
+
+            // Delete all exercises
+            val clearDb = Preference(activity)
+            clearDb.setOnPreferenceClickListener {
+
+                val dialog = AlertDialog.Builder(activity)
+                    .setTitle("Are you sure? It is irreversible.")
+                    .setPositiveButton("Yes", DialogInterface.OnClickListener { dialog, which ->
+                        val db = AppDatabase.getInstance(activity!!)!!.exerciseDao()
+                        db.deleteAll()
+                        dialog.dismiss()
+                    })
+                    .setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, which ->
+                        dialog.dismiss()
+                    })
+                    .show()
+                true
+            }
+            clearDb.key = "clearDb"
+            clearDb.title = "Remove all exercises"
+
+            preferenceScreen.addPreference(clearDb)
+
             // Remind service, turn off/change time
-
-            // Find gym maps
-
-            // Implement nuke db?
-
-            // Buy me beer
 
             // Themes
         }
@@ -190,5 +216,4 @@ class SettingsFragment : Fragment() {
             return temp
         }
     }
-
 }

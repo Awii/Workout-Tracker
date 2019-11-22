@@ -1,6 +1,7 @@
 package no.hiof.edgarass.workouttracker
 
 import android.graphics.Color
+import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
@@ -152,17 +153,25 @@ class MainFragment : Fragment() {
         }
 
         if (exerciseList.isEmpty() && exDay == "") {
-            // TODO: center
-
             val tv = TextView(activity)
             tv.text = resources.getString(R.string.rest_day)
-            tv.textSize = 30f
-            tv.setPadding(20, 150, 20, 0)
+            tv.textSize = 22f
+            tv.setTypeface(null, Typeface.BOLD)
+            tv.width = mainFragment.maxWidth
+            tv.height = mainFragment.maxHeight
+            tv.setTextColor(Color.parseColor("#616161"))
             tv.gravity = Gravity.CENTER
+            mainFragment.addView(tv)
 
-            val fl = RelativeLayout(activity!!)
-            fl.addView(tv)
-            mainFragment.addView(fl)
+            floating_action_button_add_exercise.alpha = 0f
+            floating_action_button_add_exercise.isEnabled = false
+            floating_action_button_finish_workout.alpha = 0f
+            floating_action_button_finish_workout.isEnabled = false
+        } else {
+            floating_action_button_add_exercise.alpha = 1f
+            floating_action_button_add_exercise.isEnabled = true
+            floating_action_button_finish_workout.alpha = 1f
+            floating_action_button_finish_workout.isEnabled = true
         }
     }
 }

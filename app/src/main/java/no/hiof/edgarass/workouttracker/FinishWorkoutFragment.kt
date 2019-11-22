@@ -34,7 +34,7 @@ class FinishWorkoutFragment : Fragment() {
         setHasOptionsMenu(true)
         val supportBar = (activity as AppCompatActivity).supportActionBar
         supportBar?.show()
-        supportBar?.title = "Finish workout" // TODO R.string
+        supportBar?.title = resources.getString(R.string.finish_workout)
         supportBar?.setDisplayHomeAsUpEnabled(true)
 
         setUpRecycleView()

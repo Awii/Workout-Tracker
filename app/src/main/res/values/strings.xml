@@ -17,10 +17,12 @@
     <string name="workout_category">Workout</string>
     <string name="exercise_days">Exercise days</string>
     <string name="different_workouts">Different workouts</string>
+    <string name="theme">Theme</string>
+
 
     <string name="other_category">Other</string>
     <string name="language">Language</string>
-    <string name="language_summary">Change the language of the application</string>
+    <string name="language_summary">Change the language in the application</string>
 
     <string name="rest_day">Happy rest day.</string>
 
@@ -33,7 +35,23 @@
     <string name="sunday">Sunday</string>
     <string name="finish_workout">Finish workout</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_new_exercise">Add new exercise</string>
+    <string name="edit_exercise">Edit exercise</string>
+    <string name="name">Name</string>
+    <string name="sets">Sets</string>
+    <string name="reps">Reps</string>
+    <string name="weight">Weight</string>
+    <string name="unit">Unit</string>
+    <string name="increment">Increment</string>
+    <string name="clear">Clear</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+
+
+    <string name="find_gyms">Find gyms near me</string>
+    <string name="irreversible_delete">Are you sure? It is irreversible.</string>
+    <string name="remove_all_exercises">Remove all exercises</string>
+    <string name="yes">Yes</string>
+
 
 </resources>

@@ -43,7 +43,7 @@
         tools:layout="@layout/fragment_add_exercise" />
     <fragment
         android:id="@+id/finishWorkout"
-        android:name="no.hiof.edgarass.workouttracker.FinishWorkout"
+        android:name="no.hiof.edgarass.workouttracker.FinishWorkoutFragment"
         android:label="fragment_finish_workout"
         tools:layout="@layout/fragment_finish_workout" />
     <fragment

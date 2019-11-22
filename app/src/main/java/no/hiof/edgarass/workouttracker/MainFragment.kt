@@ -89,10 +89,10 @@ class MainFragment : Fragment() {
                 findNavController(mainFragment).navigate(R.id.action_mainFragment_to_settingsFragment)
                 return true
             }
-            R.id.action_synchronize -> {
+            /*R.id.action_synchronize -> {
                 findNavController(mainFragment).navigate(R.id.action_mainFragment_to_synchronizeFragment)
                 return true
-            }
+            }*/
             else -> {
                 super.onOptionsItemSelected(item)
             }

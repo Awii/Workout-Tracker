@@ -17,7 +17,7 @@ import no.hiof.edgarass.workouttracker.adapter.FinishWorkoutAdapter
 import kotlin.math.round
 
 
-class FinishWorkout : Fragment() {
+class FinishWorkoutFragment : Fragment() {
     private var exerciseList : ArrayList<Exercise> = Exercise.getExercises()
 
     override fun onCreateView(

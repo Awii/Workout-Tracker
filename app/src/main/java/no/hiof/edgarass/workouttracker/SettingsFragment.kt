@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.res.Resources
 import android.net.Uri
 import android.os.Bundle
 import android.util.AttributeSet
@@ -77,6 +78,7 @@ class SettingsFragment : Fragment() {
             differentWorkouts.summary = sharedPrefs.getString("different_workouts", null)
             differentWorkouts.entries = arrayOf("1", "2", "3")
             differentWorkouts.entryValues = arrayOf("1", "2", "3")
+            differentWorkouts.negativeButtonText = resources.getString(R.string.cancel)
 
             // Update summary on change
             differentWorkouts.setOnPreferenceChangeListener { preference, newValue ->
@@ -108,6 +110,7 @@ class SettingsFragment : Fragment() {
                 multiSelectPref.title = resources.getString(R.string.exercise_days) + " " + workoutsToInt[i]
                 multiSelectPref.entries = weekdaysLocal
                 multiSelectPref.entryValues = weekdays
+                multiSelectPref.negativeButtonText = resources.getString(R.string.cancel)
 
                 val charSeq = sharedPrefs.getStringSet("exercise_days" + workoutsToInt[i], null).toString()
                 val summary = charSequenceToStringsDaily(charSeq)
@@ -130,14 +133,40 @@ class SettingsFragment : Fragment() {
             preferenceScreen.addPreference(otherCategory)
 
 
+            /*
+            // Change theme
+            val theme = ListPreference(activity)
+            theme.key = "theme"
+            theme.title = resources.getString(R.string.theme)
+            theme.setDefaultValue("1")
+            //theme.summary = sharedPrefs.getString("theme", null)
+            theme.entries = arrayOf("Light theme", "Dark theme")
+            theme.entryValues = arrayOf("1", "2")
+            theme.negativeButtonText = resources.getString(R.string.cancel)
+
+            // Update theme on change
+            theme.setOnPreferenceChangeListener { preference, newValue ->
+                //preference.summary = newValue.toString()
+                val fragment = no.hiof.edgarass.workouttracker.SettingsFragment()
+
+                // Reloads the fragment
+                (activity as AppCompatActivity).supportFragmentManager.beginTransaction()
+                    .replace(R.id.settingsLayout, SettingsFragment()).commit()
+                true
+            }
+            preferenceScreen.addPreference(theme)
+             */
+
+
             // Change language
             val language = ListPreference(activity)
             language.key = "language"
             language.title = resources.getString(R.string.language)
             language.setDefaultValue("en")
-            language.summary = resources.getString(R.string.language_summary)
+            //language.summary = resources.getString(R.string.language_summary)
             language.entries = arrayOf("English", "Norsk")
             language.entryValues = arrayOf("en", "no")
+            language.negativeButtonText = resources.getString(R.string.cancel)
             language.setOnPreferenceChangeListener { preference, newValue ->
                 sharedPrefs.edit().putString(preference.key, newValue.toString()).apply()
 
@@ -158,7 +187,7 @@ class SettingsFragment : Fragment() {
             // Find gyms near me
             val openMaps = Preference(activity)
             openMaps.key = "openMaps"
-            openMaps.title = "Find gyms near me " // Todo R.string
+            openMaps.title = resources.getString(R.string.find_gyms)
             openMaps.setOnPreferenceClickListener {
                 Log.d("asd", "clicked")
                 val intent = Intent(Intent.ACTION_VIEW,
@@ -175,26 +204,22 @@ class SettingsFragment : Fragment() {
             clearDb.setOnPreferenceClickListener {
 
                 val dialog = AlertDialog.Builder(activity)
-                    .setTitle("Are you sure? It is irreversible.")
-                    .setPositiveButton("Yes", DialogInterface.OnClickListener { dialog, which ->
+                    .setTitle(resources.getString(R.string.irreversible_delete))
+                    .setPositiveButton(resources.getString(R.string.yes), DialogInterface.OnClickListener { dialog, which ->
                         val db = AppDatabase.getInstance(activity!!)!!.exerciseDao()
                         db.deleteAll()
                         dialog.dismiss()
                     })
-                    .setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, which ->
+                    .setNegativeButton(resources.getString(R.string.cancel), DialogInterface.OnClickListener { dialog, which ->
                         dialog.dismiss()
                     })
                     .show()
                 true
             }
             clearDb.key = "clearDb"
-            clearDb.title = "Remove all exercises"
+            clearDb.title = resources.getString(R.string.remove_all_exercises)
 
             preferenceScreen.addPreference(clearDb)
-
-            // Remind service, turn off/change time
-
-            // Themes
         }
 
         private fun charSequenceToStringsDaily(set : CharSequence) : String {

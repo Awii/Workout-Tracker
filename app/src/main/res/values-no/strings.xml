@@ -1,39 +1,53 @@
 <resources>
-    <string name="app_name">NO_Workout Tracker</string>
+    <string name="app_name">Workout Tracker</string>
 
-    <string name="action_settings">NO_Settings</string>
+    <string name="action_settings">Innstillinger</string>
     <string name="action_synchronize">NO_Synchronize data</string>
-    <string name="cancel">NO_Cancel</string>
-    <string name="add">NO_Add</string>
-    <string name="cannotBeEmpty">NO_The fields cannot be empty.</string>
+    <string name="cancel">Avbryt</string>
+    <string name="add">Legg til</string>
+    <string name="cannotBeEmpty">Feltene kan ikke være tomme.</string>
 
-    <string name="workout_routine">NO_Workout routine</string>
+    <string name="workout_routine">Treningsrutine</string>
     <string-array name="workout_routines">NO_
         <item>A</item>
         <item>B</item>
         <item>C</item>
     </string-array>
 
-    <string name="workout_category">NO_Workout</string>
-    <string name="exercise_days">NO_Exercise days</string>
-    <string name="different_workouts">NO_Different workouts</string>
+    <string name="workout_category">Trening</string>
+    <string name="exercise_days">Treningsdager</string>
+    <string name="different_workouts">Forskjellige rutiner</string>
 
-    <string name="other_category">NO_Other</string>
-    <string name="language">NO_Language</string>
-    <string name="language_summary">NO_Change the language of the application</string>
+    <string name="other_category">Annet</string>
+    <string name="language">Språk</string>
+    <string name="language_summary">Bytte språk i applikasjonen</string>
 
-    <string name="rest_day">NO_Happy rest day.</string>
+    <string name="rest_day">Ha en god hviledag.</string>
 
-    <string name="monday">NO_Monday</string>
-    <string name="tuesday">NO_Tuesday</string>
-    <string name="wednesday">NO_Wednesday</string>
-    <string name="thursday">NO_Thursday</string>
-    <string name="friday">NO_Friday</string>
-    <string name="saturday">NO_Saturday</string>
-    <string name="sunday">NO_Sunday</string>
-    <string name="finish_workout">NO_Finish workout</string>
+    <string name="monday">Mandag</string>
+    <string name="tuesday">Tirsdag</string>
+    <string name="wednesday">Onsdag</string>
+    <string name="thursday">Torsdag</string>
+    <string name="friday">Fredag</string>
+    <string name="saturday">Lørdag</string>
+    <string name="sunday">Søndag</string>
+    <string name="finish_workout">Avslutt trening</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">NO_Hello blank fragment</string>
+    <string name="theme">Tema</string>
+    <string name="add_new_exercise">Legge til ny øvelse</string>
+    <string name="clear">Tøm</string>
+    <string name="delete">Slett</string>
+    <string name="edit">Endre</string>
+    <string name="edit_exercise">Oppdatere øvelsen</string>
+    <string name="increment">Økning</string>
+    <string name="name">Navn</string>
+    <string name="reps">Repetisjoner</string>
+    <string name="sets">Sett</string>
+    <string name="unit">Enhet</string>
+    <string name="weight">Vekt</string>
+    <string name="find_gyms">Treningsstudio i nærheten</string>
+    <string name="irreversible_delete">Er du sikker? Dette er irreversibelt.</string>
+    <string name="remove_all_exercises">Slette alle øvelser</string>
+    <string name="yes">Ja</string>
 
 </resources>

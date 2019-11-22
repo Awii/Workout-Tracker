@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".FinishWorkout"
+    tools:context=".FinishWorkoutFragment"
     app:layout_constraintWidth_default="percent"
     android:background="@color/lightBackgroundGradient1">
 

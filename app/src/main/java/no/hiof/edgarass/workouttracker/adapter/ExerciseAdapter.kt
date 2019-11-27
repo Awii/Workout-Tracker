@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.exercise_list_item.view.*
 import no.hiof.edgarass.workouttracker.R
 import no.hiof.edgarass.workouttracker.model.Exercise
 
-class ExerciseAdapter(private val items: ArrayList<Exercise>, var clickListener: View.OnLongClickListener) : RecyclerView.Adapter<ExerciseAdapter.ExerciseViewHolder>() {
+class ExerciseAdapter(private val items: ArrayList<Exercise>, private var clickListener: View.OnLongClickListener) : RecyclerView.Adapter<ExerciseAdapter.ExerciseViewHolder>() {
     override fun getItemCount(): Int {
         return items.size
     }

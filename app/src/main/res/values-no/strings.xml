@@ -2,7 +2,6 @@
     <string name="app_name">Workout Tracker</string>
 
     <string name="action_settings">Innstillinger</string>
-    <string name="action_synchronize">NO_Synchronize data</string>
     <string name="cancel">Avbryt</string>
     <string name="add">Legg til</string>
     <string name="cannotBeEmpty">Feltene kan ikke være tomme.</string>
@@ -49,5 +48,6 @@
     <string name="irreversible_delete">Er du sikker? Dette er irreversibelt.</string>
     <string name="remove_all_exercises">Slette alle øvelser</string>
     <string name="yes">Ja</string>
+    <string name="updated_successfully">Oppdatering vellykket</string>
 
 </resources>

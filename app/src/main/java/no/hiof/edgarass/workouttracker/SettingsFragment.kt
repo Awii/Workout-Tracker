@@ -1,20 +1,15 @@
 package no.hiof.edgarass.workouttracker
 
 import android.app.AlertDialog
-import android.app.Dialog
-import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.content.res.Resources
 import android.net.Uri
 import android.os.Bundle
-import android.util.AttributeSet
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.preference.*
 import android.util.Log
-import androidx.fragment.app.DialogFragment
 import no.hiof.edgarass.workouttracker.database.AppDatabase
 import java.util.*
 
@@ -45,7 +40,6 @@ class SettingsFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                // Hide keyboard if it's open
                 MainActivity.hideKeyboard(context!!, view!!)
                 view!!.clearFocus()
                 activity!!.onBackPressed()
@@ -61,16 +55,13 @@ class SettingsFragment : Fragment() {
             setPreferencesFromResource(R.xml.preferences, rootKey)
             val sharedPrefs = preferenceManager.sharedPreferences
 
-            /*
-                Workout
-             */
+            /* Workout */
 
-            // Top preference category
             val workoutCategory = PreferenceCategory(activity)
             workoutCategory.title = resources.getString(R.string.workout_category)
             preferenceScreen.addPreference(workoutCategory)
 
-            // Choices of 1 to 3 different workouts during the week (usual is 1 to 2)
+            // Choices of 1 to 3 different workouts during the week
             val differentWorkouts = ListPreference(activity)
             differentWorkouts.key = "different_workouts"
             differentWorkouts.title = resources.getString(R.string.different_workouts)
@@ -83,8 +74,6 @@ class SettingsFragment : Fragment() {
             // Update summary on change
             differentWorkouts.setOnPreferenceChangeListener { preference, newValue ->
                 preference.summary = newValue.toString()
-                val fragment = no.hiof.edgarass.workouttracker.SettingsFragment()
-
                 // Reloads the fragment
                 (activity as AppCompatActivity).supportFragmentManager.beginTransaction()
                     .replace(R.id.settingsLayout, SettingsFragment()).commit()
@@ -123,39 +112,12 @@ class SettingsFragment : Fragment() {
                 preferenceScreen.addPreference(multiSelectPref)
             }
 
-            /*
-                Other
-             */
+            /* Other */
 
             // Second preference category
             val otherCategory = PreferenceCategory(activity)
             otherCategory.title = resources.getString(R.string.other_category)
             preferenceScreen.addPreference(otherCategory)
-
-
-            /*
-            // Change theme
-            val theme = ListPreference(activity)
-            theme.key = "theme"
-            theme.title = resources.getString(R.string.theme)
-            theme.setDefaultValue("1")
-            //theme.summary = sharedPrefs.getString("theme", null)
-            theme.entries = arrayOf("Light theme", "Dark theme")
-            theme.entryValues = arrayOf("1", "2")
-            theme.negativeButtonText = resources.getString(R.string.cancel)
-
-            // Update theme on change
-            theme.setOnPreferenceChangeListener { preference, newValue ->
-                //preference.summary = newValue.toString()
-                val fragment = no.hiof.edgarass.workouttracker.SettingsFragment()
-
-                // Reloads the fragment
-                (activity as AppCompatActivity).supportFragmentManager.beginTransaction()
-                    .replace(R.id.settingsLayout, SettingsFragment()).commit()
-                true
-            }
-            preferenceScreen.addPreference(theme)
-             */
 
 
             // Change language
@@ -174,10 +136,9 @@ class SettingsFragment : Fragment() {
                 val conf = res.configuration
                 Locale.setDefault(Locale(newValue.toString()))
                 conf.setLocale(Locale(newValue.toString()))
-                res.updateConfiguration(conf, res.displayMetrics) // deprecated but works
+                res.updateConfiguration(conf, res.displayMetrics)
                 context!!.createConfigurationContext(conf)
                 activity!!.recreate()
-
                 true
             }
 
@@ -205,14 +166,14 @@ class SettingsFragment : Fragment() {
 
                 val dialog = AlertDialog.Builder(activity)
                     .setTitle(resources.getString(R.string.irreversible_delete))
-                    .setPositiveButton(resources.getString(R.string.yes), DialogInterface.OnClickListener { dialog, which ->
+                    .setPositiveButton(resources.getString(R.string.yes)) { dialog, which ->
                         val db = AppDatabase.getInstance(activity!!)!!.exerciseDao()
                         db.deleteAll()
                         dialog.dismiss()
-                    })
-                    .setNegativeButton(resources.getString(R.string.cancel), DialogInterface.OnClickListener { dialog, which ->
+                    }
+                    .setNegativeButton(resources.getString(R.string.cancel)) { dialog, which ->
                         dialog.dismiss()
-                    })
+                    }
                     .show()
                 true
             }

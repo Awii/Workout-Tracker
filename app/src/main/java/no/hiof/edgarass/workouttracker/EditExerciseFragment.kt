@@ -5,7 +5,6 @@ import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.fragment_add_exercise.*
 import kotlinx.android.synthetic.main.fragment_edit_exercise.*
 import no.hiof.edgarass.workouttracker.database.AppDatabase
 
@@ -30,12 +29,6 @@ class EditExerciseFragment : Fragment() {
         dialogFunctionality()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        // Custom action bar
-        //inflater.inflate(R.menu.menu_finish_workout, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
@@ -50,6 +43,8 @@ class EditExerciseFragment : Fragment() {
 
     private fun dialogFunctionality() {
         val db = AppDatabase.getInstance(context!!)!!.exerciseDao()
+
+        // Get name of the exercise from bundle
         val argName = arguments?.getString("name")
 
         val exercise = db.findByName(argName!!)
@@ -70,13 +65,15 @@ class EditExerciseFragment : Fragment() {
             editExerciseUnit.text.clear()
             editExerciseIncrement.text.clear()
         }
+
         btn_delete.setOnClickListener {
-            db.delete(db.findByName(argName!!))
+            db.delete(db.findByName(argName))
+            MainActivity.hideKeyboard(context!!, view!!)
             view!!.clearFocus()
             activity!!.onBackPressed()
         }
-        btn_edit.setOnClickListener {
 
+        btn_edit.setOnClickListener {
             // Hold field data
             val routine = editExerciseSpinner.selectedItem.toString()
             val name = editExerciseName.text.toString()
@@ -88,6 +85,7 @@ class EditExerciseFragment : Fragment() {
 
             if (name.isNotBlank() && reps.isNotBlank() && sets.isNotBlank() && weight.isNotBlank() && unit.isNotBlank() && increment.isNotBlank()) {
                 db.updateExercise(argName, routine, name, sets.toInt(), reps.toInt(), weight.toDouble(), unit, increment.toDouble())
+                MainActivity.hideKeyboard(context!!, view!!)
                 view!!.clearFocus()
                 activity!!.onBackPressed()
             } else {

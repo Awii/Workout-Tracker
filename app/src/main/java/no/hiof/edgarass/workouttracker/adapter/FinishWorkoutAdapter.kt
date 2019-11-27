@@ -1,7 +1,5 @@
 package no.hiof.edgarass.workouttracker.adapter
 
-import android.text.Editable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,10 +14,8 @@ import kotlinx.android.synthetic.main.finish_workout_list_item.view.*
 import no.hiof.edgarass.workouttracker.R
 import no.hiof.edgarass.workouttracker.model.Exercise
 import java.lang.NumberFormatException
-import kotlin.math.round
 
 class FinishWorkoutAdapter(private val items: ArrayList<Exercise>) : RecyclerView.Adapter<FinishWorkoutAdapter.ExerciseViewHolder>() {
-    private var hashMap = HashMap<String, String>()
     override fun getItemCount(): Int {
         return items.size
     }
@@ -32,11 +28,12 @@ class FinishWorkoutAdapter(private val items: ArrayList<Exercise>) : RecyclerVie
     override fun onBindViewHolder(holder: ExerciseViewHolder, position: Int) {
         val currentExercise = items[position]
         holder.bind(currentExercise)
+        // Update increment with the new value in EditText
         holder.exerciseIncrement.doAfterTextChanged {
             try {
                 currentExercise.increment = it.toString().toDouble()
             } catch (e: NumberFormatException) {
-                // Catching empty string error
+                // Double cannot be null
             }
         }
     }
@@ -53,10 +50,6 @@ class FinishWorkoutAdapter(private val items: ArrayList<Exercise>) : RecyclerVie
             exerciseIncrement.setText(item.increment.toString())
             exerciseUnit.text = item.unit
         }
-    }
-
-    fun getHashMap() : HashMap<String, String> {
-        return hashMap
     }
 
 }

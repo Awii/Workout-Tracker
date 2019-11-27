@@ -1,6 +1,5 @@
 package no.hiof.edgarass.workouttracker
 
-
 import android.os.Bundle
 import android.view.*
 import android.widget.*
@@ -38,7 +37,6 @@ class FinishWorkoutFragment : Fragment() {
         supportBar?.setDisplayHomeAsUpEnabled(true)
 
         setUpRecycleView()
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -49,7 +47,6 @@ class FinishWorkoutFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                // Hide keyboard if it's open
                 MainActivity.hideKeyboard(context!!, view!!)
                 view!!.clearFocus()
                 activity!!.onBackPressed()
@@ -57,11 +54,10 @@ class FinishWorkoutFragment : Fragment() {
             }
             R.id.confirm_button -> {
                 updateExercises()
-                // Hide keyboard if it's open
                 MainActivity.hideKeyboard(context!!, view!!)
                 view!!.clearFocus()
                 activity!!.onBackPressed()
-                Toast.makeText(activity, "Updated successfully", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, resources.getString(R.string.updated_successfully), Toast.LENGTH_SHORT).show()
                 return true
             }
         }
@@ -84,9 +80,9 @@ class FinishWorkoutFragment : Fragment() {
         finish_workout_recycler_view.adapter = FinishWorkoutAdapter(exerciseList)
         finish_workout_recycler_view.layoutManager = LinearLayoutManager(context)
 
-        // Find current weekday
         val db = AppDatabase.getInstance(activity!!)!!.exerciseDao()
 
+        // Find current weekday
         val exDaysA = PreferenceManager.getDefaultSharedPreferences(context).getStringSet("exercise_daysA", null)
         val exDaysB = PreferenceManager.getDefaultSharedPreferences(context).getStringSet("exercise_daysB", null)
         val exDaysC = PreferenceManager.getDefaultSharedPreferences(context).getStringSet("exercise_daysC", null)
@@ -104,7 +100,7 @@ class FinishWorkoutFragment : Fragment() {
         exerciseList.clear()
         for (ex in db.getAll()) {
             if (exDay.contains(ex.routine!!)) {
-                exerciseList.add(Exercise(ex.routine!!, ex.name!!, ex.sets!!, ex.reps!!, ex.weight!!, ex.unit!!, ex.increment!!))
+                exerciseList.add(Exercise(ex.routine, ex.name!!, ex.sets!!, ex.reps!!, ex.weight!!, ex.unit!!, ex.increment!!))
             }
         }
     }

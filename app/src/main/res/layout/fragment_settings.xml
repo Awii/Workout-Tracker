@@ -3,5 +3,5 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/settingsLayout"
-    android:layout_marginTop="150px">
+    android:layout_marginTop="?attr/actionBarSize">
 </LinearLayout>

@@ -2,11 +2,8 @@ package no.hiof.edgarass.workouttracker
 
 import android.graphics.Color
 import android.graphics.Typeface
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.*
-import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.get
@@ -69,8 +66,6 @@ class MainFragment : Fragment() {
         if (exDay != "") isDay = ", $exDay"
 
         actionBar?.title = todayLocal + isDay
-        actionBar?.setBackgroundDrawable(ColorDrawable(Color.LTGRAY))
-
 
         // Floating action button navigation
         floating_action_button_add_exercise.setOnClickListener {
@@ -84,16 +79,11 @@ class MainFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Respond to action bar clicks
         return when (item.itemId) {
             R.id.action_settings -> {
                 findNavController(mainFragment).navigate(R.id.action_mainFragment_to_settingsFragment)
                 return true
             }
-            /*R.id.action_synchronize -> {
-                findNavController(mainFragment).navigate(R.id.action_mainFragment_to_synchronizeFragment)
-                return true
-            }*/
             else -> {
                 super.onOptionsItemSelected(item)
             }
@@ -101,16 +91,15 @@ class MainFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.clear()
         inflater.inflate(R.menu.menu_settings, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
     private fun setUpRecycleView() {
-        exerciseRecycleView.adapter = ExerciseAdapter(exerciseList,
+        exercise_recycle_view.adapter = ExerciseAdapter(exerciseList,
             View.OnLongClickListener { view ->
-                val position = exerciseRecycleView.getChildAdapterPosition(view)
-                val clickExercise = exerciseRecycleView[position]
+                val position = exercise_recycle_view.getChildAdapterPosition(view)
+                val clickExercise = exercise_recycle_view[position]
 
                 // Put name of the exercise to EditExerciseFragment so it can identify which exercise to remove
                 val bundle = Bundle()
@@ -123,7 +112,7 @@ class MainFragment : Fragment() {
                 findNavController().navigate(R.id.action_mainFragment_to_editExerciseFragment, bundle)
                 true
             })
-        exerciseRecycleView.layoutManager = LinearLayoutManager(context)
+        exercise_recycle_view.layoutManager = LinearLayoutManager(context)
     }
 
     private fun updateExerciseList() {
@@ -148,10 +137,11 @@ class MainFragment : Fragment() {
         exerciseList.clear()
         for (ex in db.getAll()) {
             if (exDay.contains(ex.routine!!)) {
-                exerciseList.add(Exercise(ex.routine!!, ex.name!!, ex.sets!!, ex.reps!!, ex.weight!!, ex.unit!!, ex.increment!!))
+                exerciseList.add(Exercise(ex.routine, ex.name!!, ex.sets!!, ex.reps!!, ex.weight!!, ex.unit!!, ex.increment!!))
             }
         }
 
+        // If current weekday is not an exercise day
         if (exerciseList.isEmpty() && exDay == "") {
             val tv = TextView(activity)
             tv.text = resources.getString(R.string.rest_day)
@@ -163,11 +153,13 @@ class MainFragment : Fragment() {
             tv.gravity = Gravity.CENTER
             mainFragment.addView(tv)
 
+            // Hide and disable FAB
             floating_action_button_add_exercise.alpha = 0f
             floating_action_button_add_exercise.isEnabled = false
             floating_action_button_finish_workout.alpha = 0f
             floating_action_button_finish_workout.isEnabled = false
         } else {
+            // Show and enable FAB
             floating_action_button_add_exercise.alpha = 1f
             floating_action_button_add_exercise.isEnabled = true
             floating_action_button_finish_workout.alpha = 1f
